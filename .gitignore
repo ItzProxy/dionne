@@ -1,0 +1,37 @@
+# Eclipse
+bin/
+.classpath
+.project
+.settings/
+
+# Gradle
+.gradle/
+build/
+
+# IDEA
+.idea/
+*.iml
+out/
+
+# Log files
+*.log
+log/
+
+# Mercurial and diff
+*.rej
+*.orig
+
+# NPM
+node_modules/
+generated-src/main/resources/public/assets/js/webpack/
+
+# Elasticsearch
+elasticsearch/
+
+# Development
+application-personal.properties
+
+# Temp files
+*~
+.DS_Store
+*.swp

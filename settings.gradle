@@ -1,0 +1,6 @@
+rootProject.name = 'dionne'
+include 'dionne-api'
+include 'dionne-client'
+include 'dionne-service'
+include 'dionne-webapp'
+

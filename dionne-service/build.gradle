@@ -1,0 +1,22 @@
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    compile project(':dionne-api')
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compile 'org.liquibase:liquibase-core'
+	compile 'org.hsqldb:hsqldb'
+    compile 'org.glassfish.jersey.core:jersey-client'
+    compile 'org.glassfish.jersey.media:jersey-media-json-jackson'
+    compile 'org.glassfish.jersey.inject:jersey-hk2'
+    compile 'org.apache.commons:commons-lang3:3.8.1'
+
+
+    compileOnly 'org.projectlombok:lombok:1.18.4'
+    testCompile project(':dionne-client')
+    
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile("junit:junit")
+}
+
+
