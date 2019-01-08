@@ -1,5 +1,6 @@
-package com.vivvo.userservice.core;
+package com.vivvo.userservice.core.SubResources;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -9,9 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.UUID;
 
 @Entity
@@ -19,18 +17,15 @@ import java.util.UUID;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class User {
-
+public class Email {
     @Id
-    @Column(name = "user_id")
+    @Column(name = "email_id")
     @Type(type = "uuid-char")
+    private UUID emailId;
+    @Column(name = "user_id")
     private UUID userId;
-    @Column(name = "first_name")
-    private String firstName;
-    @Column(name = "last_name")
-    private String lastName;
-    @Column(name = "username")
-    private String username;
-    @Column (name = "email_id")
-    private Array emailIdList;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "is_primary")
+    private Boolean isPrimary;
 }

@@ -1,6 +1,7 @@
 package com.vivvo.userservice.controller;
 
 
+import com.vivvo.userservice.EmailDto;
 import com.vivvo.userservice.UserDto;
 import com.vivvo.userservice.core.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,11 @@ public class UserController {
         return userService.findUserByLastName(lastName);
     }
 
+    @GetMapping("{userId}/email")
+    public List<EmailDto> findEmailByUserId(@PathVariable UUID userId) {
+        return userService.findEmailsByUserId(userId);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto create(@RequestBody UserDto dto) {
@@ -46,4 +52,6 @@ public class UserController {
     public void delete(@PathVariable UUID userId){
         userService.delete(userId);
     }
+
+
 }
