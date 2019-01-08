@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -28,4 +29,6 @@ public class User {
     private String lastName;
     @Column(name = "username")
     private String username;
+    @Column(name = "emails")
+    private List<String> emails;
 }

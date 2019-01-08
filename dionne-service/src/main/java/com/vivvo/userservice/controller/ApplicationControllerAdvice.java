@@ -29,18 +29,18 @@ public class ApplicationControllerAdvice {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Collections.singletonMap("message", exception.getMessage()));
     }
-
+/*
     @ExceptionHandler(value = ValidationException.class)
     public ResponseEntity<Object> handleUserNotFoundException(ValidationException exception, WebRequest request) {
         Map<String, String> translatedValidationErrors = exception.getValidationErrors()
                 .entrySet()
                 .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> translate(e.getValue())));
+                .collect(Collectors.toMap(Map::entrySet, e -> translate(e.getValue())));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(translatedValidationErrors);
     }
-
+*/
      private String translate(String key) {
         try {
             return messageSourceAccessor.getMessage(key, LocaleContextHolder.getLocale());

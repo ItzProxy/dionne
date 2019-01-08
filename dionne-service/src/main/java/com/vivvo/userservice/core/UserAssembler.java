@@ -4,6 +4,7 @@ import com.vivvo.userservice.UserDto;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -14,7 +15,8 @@ public class UserAssembler {
                 .setFirstName(user.getFirstName())
                 .setLastName(user.getLastName())
                 .setUserId(user.getUserId())
-                .setUsername(user.getUsername());
+                .setUsername(user.getUsername())
+                .setEmails(user.getEmails());
     }
 
     public User disassemble(UserDto dto) {
@@ -23,7 +25,8 @@ public class UserAssembler {
                 .setUserId(userId)
                 .setFirstName(StringUtils.trim(dto.getFirstName()))
                 .setLastName(StringUtils.trim(dto.getLastName()))
-                .setUsername(StringUtils.trim(dto.getUsername()));
+                .setUsername(StringUtils.trim(dto.getUsername()))
+                .setEmails(dto.getEmails());
     }
 
 }
