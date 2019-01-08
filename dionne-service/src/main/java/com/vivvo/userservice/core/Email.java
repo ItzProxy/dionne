@@ -17,16 +17,17 @@ import java.util.UUID;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class User {
+public class Email {
 
     @Id
+    @Column(name = "email_id")
+    @Type(type = "uuid-char")
+    private UUID emailId;
     @Column(name = "user_id")
     @Type(type = "uuid-char")
     private UUID userId;
-    @Column(name = "first_name")
-    private String firstName;
-    @Column(name = "last_name")
-    private String lastName;
-    @Column(name = "username")
-    private String username;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "is_primary")
+    private Boolean bIsPrimary;
 }

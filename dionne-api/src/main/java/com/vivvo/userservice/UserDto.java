@@ -13,7 +13,7 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private String username;
-    private List<String> emails;
+    private List<UserEmailDto> emails;
 }
 
 

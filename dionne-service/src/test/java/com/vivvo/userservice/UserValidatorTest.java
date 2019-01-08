@@ -10,6 +10,8 @@ import static org.mockito.Mockito.*;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
 
@@ -90,12 +92,23 @@ public class UserValidatorTest {
         assertNotNull(validationErrors.get("username"));
     }
 
+    @Test
+    public void testValidateWithValidEmail_shouldSucceed(){
+        UserDto dto = newValidUserForCreate();
+
+
+    }
+
 
     private UserDto newValidUserForCreate() {
         return new UserDto()
                 .setLastName("TestLastName")
                 .setFirstName("TestFirstName")
-                .setUsername("TestUserName");
+                .setUsername("TestUserName")
+                .setEmails(new ArrayList<String>(
+                        Arrays.asList("dionne.pasion@gmail.com",
+                                "dionne@vivvo.com"
+                        )));
     }
 
     private UserDto newValidUserForUpdate() {
