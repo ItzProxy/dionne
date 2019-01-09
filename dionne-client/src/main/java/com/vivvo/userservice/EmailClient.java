@@ -41,6 +41,22 @@ public class EmailClient {
                 .get(new GenericType<List<EmailDto>>(){});
     }
 
+    public List<EmailDto> getEmailsByUserId(UUID userId){
+        return emailTarget()
+                .path(userId.toString())
+                .request()
+                .get(new GenericType<List<EmailDto>>(){});
+    }
+
+    public EmailDto changeEmailPrimaryByEmailId(UUID userId, UUID emailId){
+        return emailTarget()
+                .path(userId.toString())
+                .path(emailId.toString())
+                .path("primary")
+                .request()
+                .get(new GenericType<EmailDto>(){});
+    }
+
     private WebTarget emailTarget() {
         return ClientBuilder.newClient()
                 .target(baseUri)

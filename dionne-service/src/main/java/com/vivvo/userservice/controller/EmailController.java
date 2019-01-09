@@ -28,8 +28,21 @@ public class EmailController {
         return emailService.create(dto);
     }
 
-    @GetMapping(params = "userId")
-    public List<EmailDto> findEmailByUserId(@RequestParam UUID userId){
+    @GetMapping("{userId}")
+    public List<EmailDto> findEmailByUserId(@PathVariable UUID userId){
         return emailService.findEmailsByUserId(userId);
+    }
+
+    //TODO: Build the setPrimary method
+    @PutMapping("/{userId}/{emailId}/primary")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public EmailDto changeEmailPrimaryByEmailId(@PathVariable UUID userId, @PathVariable UUID emailId){
+        return emailService.changeEmailPrimaryByEmailId(userId, emailId);
+    }
+
+    @PutMapping("/primary/{emailId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public EmailDto changeEmailPrimary(@PathVariable UUID emailId){
+        return emailService.makeEmailPrimaryByEmailId(emailId);
     }
 }

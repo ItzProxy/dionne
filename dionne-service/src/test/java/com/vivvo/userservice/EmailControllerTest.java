@@ -2,6 +2,8 @@ package com.vivvo.userservice;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vivvo.userservice.core.Email.EmailAssembler;
+import com.vivvo.userservice.core.Email.EmailNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -50,9 +53,8 @@ public class EmailControllerTest {
     @Test
     public void testCreateAndSearch_shouldSucceed() {
         UserDto userDto = validUser();
-        EmailDto emailDto = validEmail(userDto.getUserId());
-
-        userClient.create(userDto);
+        UserDto returnedUser = userClient.create(userDto);
+        EmailDto emailDto = validEmail(returnedUser.getUserId());
 
         testRestTemplate.postForLocation("/api/v1/users/email" , emailDto);
 
@@ -107,17 +109,38 @@ public class EmailControllerTest {
         EmailDto emailDto = validEmail(returnedUserDto.getUserId());
         emailClient.create(emailDto);
 
-        testRestTemplate.getRestTemplate();
-
-        EmailDto[] emails = testRestTemplate.getForObject("/api/v1/users/email/{userId}" , EmailDto[].class, emailDto.getUserId());
-        assertEquals(1, emails.length);
-        assertEquals("testemail@test.com", emails[0].getEmail());
+        List<EmailDto> emails = emailClient.getEmailsByUserId(emailDto.getUserId());
+        assertEquals(1, emails.size());
+        assertEquals("testemail@test.com", emails.get(0).getEmail());
     }
     @Test
-    public void testCreateAndDeleteWithUserId_shouldSuccess(){
+    public void testCreateAndDeleteWithValidUserId_shouldSuccess(){
+        UserDto userDto = validUser();
+        UserDto returnedUserDto = userClient.create(userDto);
 
+
+        EmailDto emailDto = validEmail(returnedUserDto.getUserId());
+        List<EmailDto> emails = new LinkedList<>();
+        emails.add(emailClient.create(emailDto));
+        emails.add(emailClient.create(emailDto));
+
+        EmailDto changed = emailClient.changeEmailPrimaryByEmailId(emails.get(0).getUserId(), emails.get(0).getEmailId());
+        assertEquals(changed.getIsPrimary(), true);
     }
 
+    @Test
+    public void testCreateAndSetPrimaryForOneTrue_shouldSucceed(){
+        UserDto userDto = validUser();
+        UserDto returnedUserDto = userClient.create(userDto);
+
+
+        EmailDto emailDto = validEmail(returnedUserDto.getUserId());
+    }
+
+    @Test(expected = EmailNotFoundException.class)
+    public void testInvalidEmailId(){
+
+    }
 
     private EmailDto validEmail(UUID userId) {
         return new EmailDto()

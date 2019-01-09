@@ -8,7 +8,7 @@ import java.util.UUID;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class EmailNotFoundException extends RuntimeException {
 
-    public EmailNotFoundException(int emailId) {
-        super("Email not found by email " + emailId);
+    public EmailNotFoundException(UUID emailId) {
+        super("Email not found by email " + emailId.toString());
     }
 }

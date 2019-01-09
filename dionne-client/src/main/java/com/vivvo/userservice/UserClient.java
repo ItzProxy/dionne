@@ -41,6 +41,8 @@ public class UserClient {
                 .get(new GenericType<List<UserDto>>(){});
     }
 
+
+
     private WebTarget userTarget() {
         return ClientBuilder.newClient()
                 .target(baseUri)
