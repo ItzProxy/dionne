@@ -24,7 +24,12 @@ public class EmailController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EmailDto addNewEmailWithUserId(@RequestBody EmailDto dto){
+    public EmailDto addEmailToUserId(@RequestBody EmailDto dto){
         return emailService.create(dto);
+    }
+
+    @GetMapping(params = "userId")
+    public List<EmailDto> findEmailByUserId(@RequestParam UUID userId){
+        return emailService.findEmailsByUserId(userId);
     }
 }

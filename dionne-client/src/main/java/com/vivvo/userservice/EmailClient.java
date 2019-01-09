@@ -23,12 +23,12 @@ public class EmailClient {
 
     public EmailDto update(EmailDto dto) {
         return emailTarget()
-                .path(dto.getUserId().toString())
+                .path(dto.getEmailId().toString())
                 .request()
                 .put(Entity.json(dto), EmailDto.class);
     }
 
-    public void delete(Integer emailId) {
+    public void delete(UUID emailId) {
         emailTarget()
                 .path(emailId.toString())
                 .request()
