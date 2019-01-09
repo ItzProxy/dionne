@@ -36,6 +36,7 @@ public class EmailService {
                 .map(emailAssembler::assemble)
                 .collect(Collectors.toList());
     }
+
     public EmailDto create(EmailDto dto) {
         Map<String, String> validationErrors = emailValidator.validate(dto);
         UUID emailId = dto.getEmailId() == null ? UUID.randomUUID() : dto.getEmailId();

@@ -107,13 +107,12 @@ public class EmailControllerTest {
         EmailDto emailDto = validEmail(returnedUserDto.getUserId());
         emailClient.create(emailDto);
 
-        testRestTemplate.getRestTemplate("/api/v1/users/email/" , emailDto);
+        testRestTemplate.getRestTemplate();
 
-        EmailDto[] emails = testRestTemplate.getForObject("/api/v1/users/email", EmailDto[].class);
+        EmailDto[] emails = testRestTemplate.getForObject("/api/v1/users/email/{userId}" , EmailDto[].class, emailDto.getUserId());
         assertEquals(1, emails.length);
         assertEquals("testemail@test.com", emails[0].getEmail());
     }
-
     @Test
     public void testCreateAndDeleteWithUserId_shouldSuccess(){
 
