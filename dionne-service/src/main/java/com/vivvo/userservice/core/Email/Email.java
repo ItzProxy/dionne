@@ -15,14 +15,15 @@ import java.util.UUID;
 public class Email {
     @Id
     @Column(name = "email_id")
-    private Integer emailId;
+    @Type(type = "uuid-char")
+    private UUID emailId;
+
     @Column(name = "user_id")
+    @Type(type = "uuid-char")
     private UUID userId;
     @Column(name = "email_address")
     private String email;
     @Column(name = "is_primary_email")
     private Boolean isPrimary;
-
-
 
 }

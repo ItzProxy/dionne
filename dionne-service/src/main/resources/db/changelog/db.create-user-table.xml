@@ -6,7 +6,7 @@
 
 	<changeSet author="doddt" id="create-user-table">
 		<createTable tableName="user">
-			<column name="user_id" type="varchar(36)"/>
+			<column name="user_id" type="varchar(36)" />
 			<column name="first_name" type="varchar(30)"/>
 			<column name="last_name" type="varchar(30)"/>
 		</createTable>

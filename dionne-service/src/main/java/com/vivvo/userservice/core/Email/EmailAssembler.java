@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Slf4j
 @Component
 public class EmailAssembler {
@@ -19,7 +21,6 @@ public class EmailAssembler {
     }
 
     public Email disassemble(EmailDto dto) {
-        //log.warn(dto.getEmailId() + dto.getUserId().toString() + dto.getEmail());
         return new Email()
                 .setEmailId(dto.getEmailId())
                 .setUserId(dto.getUserId())

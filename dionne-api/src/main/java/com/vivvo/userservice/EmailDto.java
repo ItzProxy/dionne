@@ -9,7 +9,7 @@ import java.util.UUID;
 @Accessors(chain = true)
 public class EmailDto {
     private UUID userId;
-    private Integer emailId;
+    private UUID emailId;
     private String email;
     private Boolean isPrimary;
 }

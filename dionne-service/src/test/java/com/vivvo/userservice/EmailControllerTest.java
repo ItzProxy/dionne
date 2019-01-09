@@ -13,6 +13,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StreamUtils;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ClientErrorException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,16 +37,22 @@ public class EmailControllerTest {
     private int port;
 
     private EmailClient emailClient;
+    private UserClient userClient;
 
     @Before
     public void before() {
         emailClient = new EmailClient();
+        userClient = new UserClient();
         emailClient.setBaseUri("http://localhost:" + port);
+        userClient.setBaseUri("http://localhost:" + port);
     }
 
     @Test
     public void testCreateAndSearch_shouldSucceed() {
-        EmailDto emailDto = validEmail();
+        UserDto userDto = validUser();
+        EmailDto emailDto = validEmail(userDto.getUserId());
+
+        userClient.create(userDto);
 
         testRestTemplate.postForLocation("/api/v1/users/email" , emailDto);
 
@@ -56,8 +63,11 @@ public class EmailControllerTest {
 
     @Test
     public void testCreateAndSearchWithClient_shouldSucceed() {
-        EmailDto emailDto = validEmail();
+        UserDto userDto = validUser();
+        UserDto returnedUserDto = userClient.create(userDto);
 
+
+        EmailDto emailDto = validEmail(returnedUserDto.getUserId());
         emailClient.create(emailDto);
         List<EmailDto> emails = emailClient.findAllEmails();
 
@@ -65,11 +75,63 @@ public class EmailControllerTest {
         assertEquals("testemail@test.com", emails.get(0).getEmail());
     }
 
-    private EmailDto validEmail() {
+    @Test(expected = BadRequestException.class)
+    public void testCreateWithNullUserId_shouldError(){
+        UserDto userDto = validUser();
+        UserDto returnedUserDto = userClient.create(userDto);
+
+
+        EmailDto emailDto = validEmail(returnedUserDto.getUserId());
+        emailDto.setUserId(null);
+
+        emailClient.create(emailDto);
+    }
+    @Test(expected = BadRequestException.class)
+    public void testCreateWithInvalidUserId_shouldError(){
+        UserDto userDto = validUser();
+        UserDto returnedUserDto = userClient.create(userDto);
+
+
+        EmailDto emailDto = validEmail(returnedUserDto.getUserId());
+        emailDto.setUserId(UUID.randomUUID());
+
+        emailClient.create(emailDto);
+    }
+
+    @Test
+    public void testCreateAndGetByUserId_shouldSucceed(){
+        UserDto userDto = validUser();
+        UserDto returnedUserDto = userClient.create(userDto);
+
+
+        EmailDto emailDto = validEmail(returnedUserDto.getUserId());
+        emailClient.create(emailDto);
+
+        testRestTemplate.getRestTemplate("/api/v1/users/email/" , emailDto);
+
+        EmailDto[] emails = testRestTemplate.getForObject("/api/v1/users/email", EmailDto[].class);
+        assertEquals(1, emails.length);
+        assertEquals("testemail@test.com", emails[0].getEmail());
+    }
+
+    @Test
+    public void testCreateAndDeleteWithUserId_shouldSuccess(){
+
+    }
+
+
+    private EmailDto validEmail(UUID userId) {
         return new EmailDto()
-                .setUserId(UUID.randomUUID())
+                .setUserId(userId == null ? UUID.randomUUID() : userId)
                 .setEmail("testemail@test.com")
                 .setIsPrimary(false);
+    }
+
+    private UserDto validUser() {
+        return new UserDto()
+                .setLastName("TestLastName")
+                .setFirstName("TestFirstName")
+                .setUsername("TestUsername");
     }
 
 

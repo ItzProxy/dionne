@@ -38,6 +38,9 @@ public class EmailService {
     }
     public EmailDto create(EmailDto dto) {
         Map<String, String> validationErrors = emailValidator.validate(dto);
+        UUID emailId = dto.getEmailId() == null ? UUID.randomUUID() : dto.getEmailId();
+        dto.setEmailId(emailId);
+
         if(!validationErrors.isEmpty()) {
             throw new ValidationException(validationErrors);
         }
@@ -48,4 +51,5 @@ public class EmailService {
                 .map(emailAssembler::assemble)
                 .get();
     }
+
 }
