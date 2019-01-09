@@ -43,7 +43,7 @@ public class ApplicationControllerAdvice {
         Map<String, String> translatedValidationErrors = exception.getValidationErrors()
                 .entrySet()
                 .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> translate(e.getValue())));
+                .collect(Collectors.toMap(p -> p.getKey(), e -> translate(e.getValue())));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(translatedValidationErrors);

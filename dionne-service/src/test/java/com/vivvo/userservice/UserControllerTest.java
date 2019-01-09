@@ -21,9 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -124,7 +122,11 @@ public class UserControllerTest {
         return new UserDto()
                 .setLastName("TestLastName")
                 .setFirstName("TestFirstName")
-                .setUsername("TestUsername");
+                .setUsername("TestUsername")
+                .setEmails(new ArrayList<String>(
+                    Arrays.asList("dionne.pasion@gmail.com",
+                            "dionne@vivvo.com"
+                           )));
     }
 
 

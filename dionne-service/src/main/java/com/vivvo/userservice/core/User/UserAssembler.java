@@ -1,11 +1,16 @@
 package com.vivvo.userservice.core.User;
 
 import com.vivvo.userservice.UserDto;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
-
+import java.util.stream.Collectors;
+@Slf4j
 @Component
 public class UserAssembler {
 

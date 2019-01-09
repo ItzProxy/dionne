@@ -6,7 +6,7 @@
 
 	<changeSet author="doddt" id="create-user-table">
 		<createTable tableName="user">
-			<column name="user_id" type="varchar(36)" />
+			<column name="user_id" type="varchar(36)"/>
 			<column name="first_name" type="varchar(30)"/>
 			<column name="last_name" type="varchar(30)"/>
 		</createTable>
@@ -15,21 +15,5 @@
 		<addColumn tableName="user">
 			<column name="username" type="varchar(255)"/>
 		</addColumn>
-	</changeSet>
-<<<<<<< HEAD:dionne-service/src/main/resources/db/changelog/db.create-user-table.xml
-	<changeSet author="dpasion" id="add-userID-primary">
-		<addPrimaryKey
-					   columnNames="user_id"
-					   constraintName="pk_user_id"
-					   tableName="user"/>
-=======
-	<changeSet author="dpasion" id="add-email-table">
-		<createTable tableName="email">
-			<column name="user_id" type="varchar(36)"/>
-			<column name="email_id" type="varchar(36)"/>
-			<column name="email" type="varchar(255)"/>
-			<column name="is_primary" type="boolean"/>
-		</createTable>
->>>>>>> master:dionne-service/src/main/resources/db/changelog/db.changelog-1.0.xml
 	</changeSet>
 </databaseChangeLog>

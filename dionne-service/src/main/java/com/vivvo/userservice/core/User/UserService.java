@@ -2,9 +2,13 @@ package com.vivvo.userservice.core.User;
 
 import com.vivvo.userservice.EmailDto;
 import com.vivvo.userservice.UserDto;
+<<<<<<< HEAD:dionne-service/src/main/java/com/vivvo/userservice/core/User/UserService.java
 import com.vivvo.userservice.core.Email.EmailAssembler;
 import com.vivvo.userservice.core.Email.EmailRepository;
 import com.vivvo.userservice.core.ValidationException;
+=======
+import com.vivvo.userservice.UserEmailDto;
+>>>>>>> master:dionne-service/src/main/java/com/vivvo/userservice/core/UserService.java
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,11 @@ import java.util.stream.Collectors;
 @Transactional
 public class UserService {
 
+
+    @Autowired
+    private EmailRepository emailRepository;
+    @Autowired
+    private EmailAssembler emailAssembler;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -68,4 +77,18 @@ public class UserService {
                 .map(userAssembler::assemble)
                 .collect(Collectors.toList());
     }
+
+    public List<UserEmailDto> getAllEmailsByUserId(UUID userId){
+        return emailRepository.getAllByUserId(userId)
+                .stream()
+                .map(emailAssembler::assemble)
+                .collect(Collectors.toList());
+    }
+
+    public List<UserEmailDto> getAllEmailsByUsername(String username){
+        return getAllEmailsByUserId(
+                userRepository.findByUsername(username).getUserId()
+        );
+    }
+
 }

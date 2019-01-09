@@ -9,9 +9,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+<<<<<<< HEAD:dionne-service/src/main/java/com/vivvo/userservice/core/User/User.java
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+=======
+import java.util.List;
+>>>>>>> master:dionne-service/src/main/java/com/vivvo/userservice/core/User.java
 import java.util.UUID;
 
 @Entity
