@@ -1,33 +1,28 @@
-package com.vivvo.userservice.core.SubResources;
+package com.vivvo.userservice.core.Email;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Type;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user")
+@Table(name = "email")
 @Getter
 @Setter
 @Accessors(chain = true)
 public class Email {
     @Id
     @Column(name = "email_id")
-    @Type(type = "uuid-char")
-    private UUID emailId;
+    private Integer emailId;
     @Column(name = "user_id")
     private UUID userId;
-    @Column(name = "email")
+    @Column(name = "email_address")
     private String email;
-    @Column(name = "is_primary")
+    @Column(name = "is_primary_email")
     private Boolean isPrimary;
+
 
 
 }

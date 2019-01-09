@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="db.changelog.DbCreateEmailTable"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+    <changeSet author="dpasion" id="create-emailAddress-table">
+        <createTable tableName="email">
+            <column name="email_id" type="int(11)"/>
+            <column name="user_id" type="varchar(36)">
+                <constraints foreignKeyName="fk_user_id" references="user(user_id)"
+                             nullable="false"/>
+            </column>
+            <column name="email_address" type="varchar(255)"/>
+            <column name="is_primary_email" type="boolean"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="gunreetr" id="add-AutoIncrement">
+        <addAutoIncrement columnDataType="int"
+                          columnName="email_id"
+                          incrementBy="1"
+                          startWith="1"
+                          tableName="email"/>
+    </changeSet>
+</databaseChangeLog>

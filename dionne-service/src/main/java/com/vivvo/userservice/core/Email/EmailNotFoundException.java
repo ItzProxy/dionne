@@ -1,4 +1,4 @@
-package com.vivvo.userservice.core.User;
+package com.vivvo.userservice.core.Email;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.UUID;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class UserNotFoundException extends RuntimeException {
+public class EmailNotFoundException extends RuntimeException {
 
-    public UserNotFoundException(UUID userId) {
-        super("User not found by userId " + userId);
+    public EmailNotFoundException(int emailId) {
+        super("Email not found by email " + emailId);
     }
 }

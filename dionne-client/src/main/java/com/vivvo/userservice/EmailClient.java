@@ -10,43 +10,44 @@ import javax.ws.rs.core.GenericType;
 import java.util.List;
 import java.util.UUID;
 
-public class UserClient {
+public class EmailClient {
 
     @Setter
     private String baseUri = "http://localhost:4444";
 
-    public UserDto create(UserDto dto) {
-        return userTarget()
+    public EmailDto create(EmailDto dto) {
+        return emailTarget()
                 .request()
-                .post(Entity.json(dto), UserDto.class);
+                .post(Entity.json(dto), EmailDto.class);
     }
 
-    public UserDto update(UserDto dto) {
-        return userTarget()
+    public EmailDto update(EmailDto dto) {
+        return emailTarget()
                 .path(dto.getUserId().toString())
                 .request()
-                .put(Entity.json(dto), UserDto.class);
+                .put(Entity.json(dto), EmailDto.class);
     }
 
-    public void delete(UUID userId) {
-        userTarget()
-                .path(userId.toString())
+    public void delete(Integer emailId) {
+        emailTarget()
+                .path(emailId.toString())
                 .request()
                 .delete(Void.class);
     }
 
-    public List<UserDto> findAddUsers() {
-        return userTarget()
+    public List<EmailDto> findAllEmails() {
+        return emailTarget()
                 .request()
-                .get(new GenericType<List<UserDto>>(){});
+                .get(new GenericType<List<EmailDto>>(){});
     }
 
-    private WebTarget userTarget() {
+    private WebTarget emailTarget() {
         return ClientBuilder.newClient()
                 .target(baseUri)
                 .path("api")
                 .path("v1")
-                .path("users");
+                .path("users")
+                .path("email");
 
     }
 }
