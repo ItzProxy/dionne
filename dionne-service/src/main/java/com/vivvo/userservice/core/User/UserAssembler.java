@@ -1,4 +1,4 @@
-package com.vivvo.userservice.core;
+package com.vivvo.userservice.core.User;
 
 import com.vivvo.userservice.UserDto;
 import org.apache.commons.lang3.StringUtils;

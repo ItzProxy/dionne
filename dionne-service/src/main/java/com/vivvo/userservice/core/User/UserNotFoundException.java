@@ -1,4 +1,4 @@
-package com.vivvo.userservice.core;
+package com.vivvo.userservice.core.User;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

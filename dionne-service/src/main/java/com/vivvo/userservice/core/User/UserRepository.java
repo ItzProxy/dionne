@@ -1,10 +1,8 @@
-package com.vivvo.userservice.core;
+package com.vivvo.userservice.core.User;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.lang.reflect.Array;
 import java.util.List;
 import java.util.UUID;
 

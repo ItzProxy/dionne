@@ -3,22 +3,23 @@ package com.vivvo.userservice.controller;
 
 import com.vivvo.userservice.EmailDto;
 import com.vivvo.userservice.UserDto;
-import com.vivvo.userservice.core.UserService;
+import com.vivvo.userservice.core.Email.EmailService;
+import com.vivvo.userservice.core.User.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.POST;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
+
 
     @GetMapping
     public List<UserDto> findAllUsers() {
@@ -28,11 +29,6 @@ public class UserController {
     @GetMapping(params = "lastName")
     public List<UserDto> findUserByLastName(@RequestParam String lastName) {
         return userService.findUserByLastName(lastName);
-    }
-
-    @GetMapping("{userId}/email")
-    public List<EmailDto> findEmailByUserId(@PathVariable UUID userId) {
-        return userService.findEmailsByUserId(userId);
     }
 
     @PostMapping
@@ -52,6 +48,4 @@ public class UserController {
     public void delete(@PathVariable UUID userId){
         userService.delete(userId);
     }
-
-
 }

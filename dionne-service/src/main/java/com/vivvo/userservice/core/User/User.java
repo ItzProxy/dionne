@@ -1,4 +1,4 @@
-package com.vivvo.userservice.core;
+package com.vivvo.userservice.core.User;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +31,4 @@ public class User {
     private String lastName;
     @Column(name = "username")
     private String username;
-    @Column (name = "email_id")
-    private Array emailIdList;
 }
