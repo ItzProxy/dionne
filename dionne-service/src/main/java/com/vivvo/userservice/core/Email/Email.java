@@ -22,6 +22,7 @@ public class Email {
     @Type(type = "uuid-char")
     private UUID userId;
     @Column(name = "email_address")
+    //call this emailAddress also
     private String email;
     @Column(name = "is_primary_email")
     private Boolean isPrimary;

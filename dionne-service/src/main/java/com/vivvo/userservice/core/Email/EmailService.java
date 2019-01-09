@@ -24,24 +24,27 @@ public class EmailService {
     @Autowired
     private EmailValidator emailValidator;
 
+    //no need for find all. always in context of user
     public List<EmailDto> findAllEmails() {
         return emailRepository.findAll()
                 .stream()
                 .map(emailAssembler::assemble)
                 .collect(Collectors.toList());
     }
+
     public List<EmailDto> findEmailsByUserId(UUID userId){
-        return emailRepository.getAllByUserId(userId)
+        return emailRepository.findByUserId(userId)
                 .stream()
                 .map(emailAssembler::assemble)
                 .collect(Collectors.toList());
     }
     //TODO Workflow, have at least one of the emails be primary at all times unless no email
     public EmailDto create(EmailDto dto) {
-        Map<String, String> validationErrors = emailValidator.validate(dto);
+        //could also be part of disassemble
         UUID emailId = dto.getEmailId() == null ? UUID.randomUUID() : dto.getEmailId();
         dto.setEmailId(emailId);
 
+        Map<String, String> validationErrors = emailValidator.validate(dto);
         if(!validationErrors.isEmpty()) {
             throw new ValidationException(validationErrors);
         }
@@ -56,7 +59,7 @@ public class EmailService {
 
     public EmailDto changeEmailPrimaryByEmailId(UUID userId, UUID emailId){
        // List<EmailDto> allEmailsByUserId = findEmailsByUserId(userId);
-        List<Email>  allEmailsByUserId = emailRepository.getAllByUserId(userId);
+        List<Email> allEmailsByUserId = emailRepository.findByUserId(userId);
         if(allEmailsByUserId.size() == 0){
             throw new EmailNotFoundException(emailId);
         }
@@ -80,12 +83,14 @@ public class EmailService {
 
 
     public EmailDto makeEmailPrimaryByEmailId(UUID emailId){
-        Email toChangeEmailPrimary = Optional.of(emailRepository.getEmailByEmailId(emailId))
+
+        Email toChangeEmailPrimary = emailRepository.findById(emailId)
                 .orElseThrow(() -> new EmailNotFoundException(emailId));
 
-        List<Email> allEmailFromUser = emailRepository.getAllByUserId(toChangeEmailPrimary.getUserId());
+        List<Email> allEmailFromUser = emailRepository.findByUserId(toChangeEmailPrimary.getUserId());
 
-        allEmailFromUser.stream().forEach(e -> e.setIsPrimary(e.getEmailId() == emailId));
+        //.equals never ==
+        allEmailFromUser.stream().forEach(e -> e.setIsPrimary(e.getEmailId().equals(emailId)));
         emailRepository.saveAll(allEmailFromUser);
         return emailAssembler.assemble(toChangeEmailPrimary);
     }

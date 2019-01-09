@@ -12,11 +12,14 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
+//FIXME should be /api/v1/users/{userId}/emails (because they have more than one)
 @RequestMapping("/api/v1/users/email")
 public class EmailController {
+
     @Autowired
     private EmailService emailService;
 
+    //FIXME
     @GetMapping
     public List<EmailDto> findAllEmails() {
         return emailService.findAllEmails();
@@ -24,16 +27,22 @@ public class EmailController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    //@PathVariable UUID userId, @RequestBody EmailDto dto
     public EmailDto addEmailToUserId(@RequestBody EmailDto dto){
         return emailService.create(dto);
     }
 
+    //FIXME you have this twice
     @GetMapping("{userId}")
     public List<EmailDto> findEmailByUserId(@PathVariable UUID userId){
         return emailService.findEmailsByUserId(userId);
     }
 
     //TODO: Build the setPrimary method
+    //primary is not a verb
+    //actions should be POST and action should be a verb (setPrimary, makePrimary etc)
+    //HttpStatus.ACCEPTED is not appropriate
+    //FIXME changeEmailPrimaryByEmailId is //makeEmailPrimary updatePrimaryEmail
     @PutMapping("/{userId}/{emailId}/primary")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public EmailDto changeEmailPrimaryByEmailId(@PathVariable UUID userId, @PathVariable UUID emailId){

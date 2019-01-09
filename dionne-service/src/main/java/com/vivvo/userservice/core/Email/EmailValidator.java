@@ -27,11 +27,11 @@ public class EmailValidator {
         Map<String, String> validationErrors = new LinkedHashMap<>();
 
         if (StringUtils.isBlank(emailDto.getEmail())) {
-            validationErrors.put("email address", "Email address is required.");
+            validationErrors.put("emailAddress", "Email address is required.");
         } else if (emailDto.getEmail().length() > 255) {
-            validationErrors.put("email address", "Email address must be 255 characters or less.");
+            validationErrors.put("emailAddress", "Email address must be 255 characters or less.");
         } else if (emailDto.getUserId() == null || !userRepository.existsById(emailDto.getUserId())) {
-            validationErrors.put("user id", "This user id does not exists.");
+            validationErrors.put("userId", "This user id does not exists.");
         }
 
         return validationErrors;
