@@ -1,6 +1,7 @@
-package com.vivvo.userservice.core.User;
+package com.vivvo.userservice.core.Phone;
 
 import com.vivvo.userservice.UserDto;
+import com.vivvo.userservice.core.User.UserRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,12 +10,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Component
-public class UserValidator {
+public class PhoneValidator {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public UserValidator(UserRepository userRepository) {
+    public PhoneValidator(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

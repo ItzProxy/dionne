@@ -1,6 +1,7 @@
 package com.vivvo.userservice.controller;
 
-import com.vivvo.userservice.core.UserNotFoundException;
+import com.vivvo.userservice.core.Email.EmailNotFoundException;
+import com.vivvo.userservice.core.User.UserNotFoundException;
 import com.vivvo.userservice.core.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,13 @@ public class ApplicationControllerAdvice {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Collections.singletonMap("message", exception.getMessage()));
     }
+
+    @ExceptionHandler(value = EmailNotFoundException.class)
+    public ResponseEntity<Object> handleEmailNotFoundException(EmailNotFoundException exception, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap("message", exception.getMessage()));
+    }
+
 
     @ExceptionHandler(value = ValidationException.class)
     public ResponseEntity<Object> handleUserNotFoundException(ValidationException exception, WebRequest request) {

@@ -1,13 +1,14 @@
-package com.vivvo.userservice.core.User;
+package com.vivvo.userservice.core.Phone;
 
 import com.vivvo.userservice.UserDto;
+import com.vivvo.userservice.core.User.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
-public class UserAssembler {
+public class PhoneAssembler {
 
     public UserDto assemble(User user) {
         return new UserDto()
