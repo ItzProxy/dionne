@@ -28,4 +28,6 @@ public class Email {
     private String email;
     @Column(name = "is_primary")
     private Boolean isPrimary;
+
+
 }

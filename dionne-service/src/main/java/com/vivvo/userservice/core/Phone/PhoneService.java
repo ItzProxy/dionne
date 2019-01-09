@@ -1,14 +1,14 @@
-package com.vivvo.userservice.core;
+package com.vivvo.userservice.core.User;
 
 import com.vivvo.userservice.EmailDto;
 import com.vivvo.userservice.UserDto;
-import com.vivvo.userservice.core.SubResources.EmailAssembler;
-import com.vivvo.userservice.core.SubResources.EmailRepository;
+import com.vivvo.userservice.core.Email.EmailAssembler;
+import com.vivvo.userservice.core.Email.EmailRepository;
+import com.vivvo.userservice.core.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import javax.ws.rs.BadRequestException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,10 +23,6 @@ public class UserService {
     @Autowired
     private UserValidator userValidator;
 
-    @Autowired
-    private EmailRepository emailRepository;
-    @Autowired
-    private EmailAssembler emailAssembler;
 
     public List<UserDto> findAllUsers() {
         return userRepository.findAll()
@@ -70,13 +66,6 @@ public class UserService {
         return userRepository.findByLastNameLike(lastName)
                 .stream()
                 .map(userAssembler::assemble)
-                .collect(Collectors.toList());
-    }
-
-    public List<EmailDto> findEmailsByUserId(UUID userId){
-        return emailRepository.getAllByUserId(userId)
-                .stream()
-                .map(emailAssembler::assemble)
                 .collect(Collectors.toList());
     }
 }
