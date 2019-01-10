@@ -12,6 +12,7 @@ build/
 .idea/
 *.iml
 out/
+dist/
 
 # Log files
 *.log
@@ -25,8 +26,7 @@ log/
 node_modules/
 generated-src/main/resources/public/assets/js/webpack/
 
-# Elasticsearch
-elasticsearch/
+src/main/resources/public
 
 # Development
 application-personal.properties
