@@ -11,9 +11,20 @@
 			<column name="last_name" type="varchar(30)"/>
 		</createTable>
 	</changeSet>
+
+
 	<changeSet author="doddt" id="add-username-column">
 		<addColumn tableName="user">
 			<column name="username" type="varchar(255)"/>
 		</addColumn>
 	</changeSet>
+
+  <changeSet author="doddt" id="add-sample-data">
+    <sql>
+      insert into user values('54f8a966-26c4-4215-96ec-26f53cbc5f78','Tim', 'Dodd', 'tdodd');
+      insert into user values('54f8a966-26c4-4215-96ec-26f53cbc5f79','Michelle', 'Dodd', 'mdodd');
+
+    </sql>
+  </changeSet>
+
 </databaseChangeLog>
