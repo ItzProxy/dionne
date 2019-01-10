@@ -21,9 +21,9 @@ public class UserClient {
                 .post(Entity.json(dto), UserDto.class);
     }
 
-    public UserDto update(UserDto dto) {
+    public UserDto update(UUID userId, UserDto dto) {
         return userTarget()
-                .path(dto.getUserId().toString())
+                .path(userId.toString())
                 .request()
                 .put(Entity.json(dto), UserDto.class);
     }
@@ -41,6 +41,12 @@ public class UserClient {
                 .get(new GenericType<List<UserDto>>(){});
     }
 
+    public UserDto findUserByUserId(UUID userId){
+        return userTarget()
+                .path(userId.toString())
+                .request()
+                .get(new GenericType<UserDto>(){});
+    }
 
 
     private WebTarget userTarget() {

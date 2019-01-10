@@ -12,4 +12,5 @@ public class EmailDto {
     private UUID emailId;
     private String emailAddress;
     private Boolean isPrimary;
+    private Boolean isVerified;
 }

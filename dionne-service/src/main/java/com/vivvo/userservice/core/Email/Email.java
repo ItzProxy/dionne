@@ -24,5 +24,7 @@ public class Email {
     private String emailAddress;
     @Column(name = "is_primary_email")
     private Boolean isPrimary;
+    @Column(name = "is_verified_email")
+    private Boolean isVerified;
 
 }

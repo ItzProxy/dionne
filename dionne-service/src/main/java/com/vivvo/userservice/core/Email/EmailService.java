@@ -54,7 +54,7 @@ public class EmailService {
 
         allEmailFromUser
                 .stream()
-                .forEach(e -> e.setIsPrimary(e.getEmailId() == emailId));
+                .forEach(e -> e.setIsPrimary(e.getEmailId().equals(emailId)));
         emailRepository.saveAll(allEmailFromUser);
         return emailAssembler.assemble(toChangeEmailPrimary);
     }

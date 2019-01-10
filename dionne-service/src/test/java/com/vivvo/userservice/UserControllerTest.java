@@ -85,12 +85,14 @@ public class UserControllerTest {
 
         createdDto
                 .setFirstName("NewFirstName")
-                .setLastName("NewLastName");
+                .setLastName("NewLastName")
+                .setUsername("NewUserName");
 
-        UserDto updatedDto = userClient.update(createdDto);
+        UserDto updatedDto = userClient.update(createdDto.getUserId(), createdDto);
 
         assertEquals("NewFirstName", updatedDto.getFirstName());
         assertEquals("NewLastName", updatedDto.getLastName());
+        assertEquals("NewUserName", updatedDto.getUsername());
     }
 
     @Test

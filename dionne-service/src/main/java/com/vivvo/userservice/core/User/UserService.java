@@ -31,28 +31,36 @@ public class UserService {
             .collect(Collectors.toList());
     }
 
+    public UserDto findOneByUserId(UUID userId){
+      return userRepository.findById(userId)
+        .map(userAssembler::assemble)
+        .get();
+
+    }
+
     public UserDto create(UserDto dto) {
         Map<String, String> validationErrors = userValidator.validate(dto);
         if(!validationErrors.isEmpty()) {
             throw new ValidationException(validationErrors);
         }
-
         return Optional.of(dto)
-                .map(userAssembler::disassemble)
-                .map(userRepository::save)
-                .map(userAssembler::assemble)
-                .get();
+            .map(userAssembler::disassemble)
+            .map(userRepository::save)
+            .map(userAssembler::assemble)
+            .get();
     }
 
-    public UserDto update(UserDto dto) {
-        Map<String, String> validationErrors = userValidator.validate(dto);
+    public UserDto update(UUID userId, UserDto dto) {
+        Map<String, String> validationErrors = userValidator.validateUpdate(userId, dto);
         if(!validationErrors.isEmpty()) {
             throw new ValidationException(validationErrors);
         }
 
-        User user = userAssembler.disassemble(dto);
-        user = userRepository.save(user);
-        return userAssembler.assemble(user);
+        return Optional.of(dto)
+            .map(userAssembler::disassemble)
+            .map(userRepository::save)
+            .map(userAssembler::assemble)
+            .get();
     }
 
     public void delete(UUID userId){

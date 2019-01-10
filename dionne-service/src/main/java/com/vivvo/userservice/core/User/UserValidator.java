@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Component
 public class UserValidator {
@@ -35,6 +36,14 @@ public class UserValidator {
             validationErrors.put("username", "This username already exists.");
         } else if (userDto.getUsername().length() > 255) {
             validationErrors.put("username", "Username must be 255 characters or less.");
+        }
+        return validationErrors;
+    }
+
+    public Map<String, String> validateUpdate(UUID userId, UserDto userDto){
+        Map<String, String> validationErrors = validate(userDto);
+        if(!userId.equals(userDto.getUserId())){
+            validationErrors.put("userId", "UserId param does not match the userId in request");
         }
         return validationErrors;
     }

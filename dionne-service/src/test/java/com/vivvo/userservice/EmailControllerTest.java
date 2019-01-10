@@ -112,7 +112,7 @@ public class EmailControllerTest {
         assertEquals("testemail@test.com", emails.get(0).getEmailAddress());
     }
     @Test
-    public void testCreateAndDeleteWithValidUserId_shouldSuccess(){
+    public void testCreateAndSetPrimaryForOneTrue_shouldSucceed(){
         UserDto userDto = validUser();
         UserDto returnedUserDto = userClient.create(userDto);
 
@@ -123,21 +123,18 @@ public class EmailControllerTest {
         emails.add(userClient.createEmail(returnedUserDto.getUserId(), emailDto));
 
         EmailDto changed = userClient.updatePrimaryEmailByEmailId(emails.get(0).getUserId(), emails.get(0).getEmailId());
-        assertEquals(changed.getIsPrimary(), true);
+        assertEquals(true,changed.getIsPrimary());
     }
 
-    @Test
-    public void testCreateAndSetPrimaryForOneTrue_shouldSucceed(){
+    @Test(expected = EmailNotFoundException.class)
+    public void testInvalidEmailIdWithUpdatePrimary_EmailNotFoundExceptionShouldOccur(){
         UserDto userDto = validUser();
         UserDto returnedUserDto = userClient.create(userDto);
 
 
         EmailDto emailDto = validEmail(returnedUserDto.getUserId());
-    }
 
-    @Test(expected = EmailNotFoundException.class)
-    public void testInvalidEmailId(){
-
+        EmailDto changed = userClient.updatePrimaryEmailByEmailId(emailDto.getUserId(), UUID.randomUUID());
     }
 
     private EmailDto validEmail(UUID userId) {

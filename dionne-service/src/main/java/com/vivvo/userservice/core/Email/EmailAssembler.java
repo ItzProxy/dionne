@@ -15,7 +15,8 @@ public class EmailAssembler {
                 .setEmailId(email.getEmailId())
                 .setUserId(email.getUserId())
                 .setEmailAddress(StringUtils.strip(email.getEmailAddress()))
-                .setIsPrimary(email.getIsPrimary());
+                .setIsPrimary(email.getIsPrimary())
+                .setIsVerified(email.getIsVerified());
     }
 
     public Email disassemble(EmailDto dto) {
@@ -23,7 +24,8 @@ public class EmailAssembler {
                 .setEmailId(dto.getEmailId())
                 .setUserId(dto.getUserId())
                 .setEmailAddress(dto.getEmailAddress())
-                .setIsPrimary(dto.getIsPrimary());
+                .setIsPrimary(dto.getIsPrimary())
+                .setIsVerified(dto.getIsVerified());
     }
 
 }

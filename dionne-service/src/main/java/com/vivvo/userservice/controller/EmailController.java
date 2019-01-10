@@ -30,10 +30,11 @@ public class EmailController {
     }
 
 
-
     //TODO finish this shit
     @PostMapping("/primary")
     public EmailDto changeEmailPrimary(@PathVariable UUID userId, @RequestParam UUID emailId){
         return emailService.makeEmailPrimaryByEmailId(userId, emailId);
     }
+
+    //TODO finish
 }

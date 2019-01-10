@@ -14,4 +14,10 @@
             <column name="is_primary_email" type="boolean"/>
         </createTable>
     </changeSet>
+    <changeSet author="dpasion" id="add-is-verified-column">
+        <addColumn tableName="email">
+            <column name="is_verified_email" type="boolean"></column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
