@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {UserModel} from "../models/user.model";
 import {BehaviorSubject, Observable, of, Subscription} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-
+import { map, filter, catchError, mergeMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,35 +15,30 @@ export class UserService {
   }
 
   loadCurrentUserByUserId(userId: string): Subscription {
-    if (userId == "1") {
-      this._currentUser$.next(this.getTim());
-    } else {
-      this._currentUser$.next(this.getTom());
+
+      this.findUserById(userId).subscribe((user : UserModel) => {
+        this._currentUser$.next(user);
+      });
+      return Subscription.EMPTY;
     }
-    return Subscription.EMPTY;
-  }
 
   findAllUsers(): Observable<UserModel[]> {
     return this.http
-        .get<UserModel[]>("./api/users");
+        .get<UserModel[]>("./api/users/");
   }
 
-
-  private getTim(): UserModel {
-    const user = new UserModel();
-    user.firstName = "Tim";
-    user.lastName = "Dodd";
-    user.userId = "1";
-    return user;
+  findUserById(userId: string): Observable<UserModel> {
+    return this.http
+      .get<UserModel>("./api/users/" + userId);
   }
 
-  private getTom(): UserModel {
-    const user = new UserModel();
-    user.firstName = "Tom";
-    user.lastName = "Dodd";
-    user.userId = "2";
-    return user;
+  saveCurrentUser(userModel : UserModel): Observable<UserModel>{
+    return this.http
+        .put<UserModel>("./api/users/" + userModel.userId, userModel);
   }
 
-
+  addNewUser(user : UserModel) : Observable<UserModel>{
+      return this.http
+          .post<UserModel>("./api/users/", user);
+  }
 }

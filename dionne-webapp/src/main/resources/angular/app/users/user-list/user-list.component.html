@@ -1,12 +1,13 @@
 <table class="table table-bordered table-hover">
-  <thead>
-  <tr>
-    <th>Change Label First Name</th>
-  </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users$ | async" (click)="navigateToUserDetails(user)">
-      <td>{{user.firstName}}</td>
+    <thead>
+    <tr>
+        <th>All Users</th>
     </tr>
-  </tbody>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users$ | async" (click)="navigateToUserDetails(user)">
+        <td>{{user.username}}</td>
+    </tr>
+    </tbody>
 </table>
+<button class="btn btn-primary" type = "button" (click)="addNewUser()">Add New User</button>

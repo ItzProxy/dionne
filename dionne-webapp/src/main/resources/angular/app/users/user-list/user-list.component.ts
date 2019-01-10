@@ -20,4 +20,8 @@ export class UserListComponent {
     this.router.navigateByUrl(user.userId);
   }
 
+  addNewUser(){
+      this.router.navigateByUrl();
+  }
+
 }

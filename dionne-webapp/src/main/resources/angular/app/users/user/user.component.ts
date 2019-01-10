@@ -12,6 +12,7 @@ import {UserModel} from "../../models/user.model";
 export class UserComponent {
 
   formGroup: FormGroup = this.createFormGroup();
+  Saved : Boolean = false;
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
@@ -23,20 +24,27 @@ export class UserComponent {
     });
 
     this.userService.currentUser$.subscribe(user => {
-      this.formGroup.patchValue(user);
+      if (user) {
+        this.formGroup.patchValue(user);
+      }
     });
   }
 
+
   saveForm(): void {
     const userToSave = this.formGroup.getRawValue() as UserModel;
-    console.log(this.formGroup.getRawValue());
+    this.userService.saveCurrentUser(userToSave).subscribe(user =>{
+        this.Saved = true;
+        console.log(user);
+    });
   }
 
   private createFormGroup(): FormGroup {
     return this.formBuilder.group({
       "firstName": '',
       "lastName": '',
-      "userId": ''
+      "userId": '',
+      "username" : ''
     });
   }
 
