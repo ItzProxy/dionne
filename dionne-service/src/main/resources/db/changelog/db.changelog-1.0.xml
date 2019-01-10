@@ -6,7 +6,7 @@
 
 	<changeSet author="doddt" id="create-user-table">
 		<createTable tableName="user">
-			<column name="user_id" type="varchar(36)" />
+			<column name="user_id" type="varchar(36)"/>
 			<column name="first_name" type="varchar(30)"/>
 			<column name="last_name" type="varchar(30)"/>
 		</createTable>
@@ -15,11 +15,5 @@
 		<addColumn tableName="user">
 			<column name="username" type="varchar(255)"/>
 		</addColumn>
-	</changeSet>
-	<changeSet author="dpasion" id="add-userID-primary">
-		<addPrimaryKey
-					   columnNames="user_id"
-					   constraintName="pk_user_id"
-					   tableName="user"/>
 	</changeSet>
 </databaseChangeLog>

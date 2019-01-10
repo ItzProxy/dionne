@@ -14,13 +14,9 @@ public class MyBff {
         SpringApplication.run(MyBff.class, args);
     }
 
-    @Autowired
-    private MessageSource messageSource;
-
     @Bean
-    public MessageSourceAccessor messageSourceAccessor() {
-        return new MessageSourceAccessor(messageSource);
+    public UserClient userClient() {
+        return new UserClient();
     }
-
 
 }

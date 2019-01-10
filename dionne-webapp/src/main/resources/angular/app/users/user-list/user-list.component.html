@@ -1,0 +1,12 @@
+<table class="table table-bordered table-hover">
+  <thead>
+  <tr>
+    <th>Change Label First Name</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users$ | async" (click)="navigateToUserDetails(user)">
+      <td>{{user.firstName}}</td>
+    </tr>
+  </tbody>
+</table>
