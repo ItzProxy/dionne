@@ -9,6 +9,6 @@ import java.util.UUID;
 public class EmailNotFoundException extends RuntimeException {
 
     public EmailNotFoundException(UUID emailId) {
-        super("Email not found by email " + emailId.toString());
+        super("Email not found by id " + emailId.toString());
     }
 }

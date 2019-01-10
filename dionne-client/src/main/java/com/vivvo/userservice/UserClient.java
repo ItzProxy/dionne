@@ -51,4 +51,48 @@ public class UserClient {
                 .path("users");
 
     }
+
+    public EmailDto createEmail(UUID userId,EmailDto dto) {
+        return emailTarget(userId)
+                .request()
+                .post(Entity.json(dto), EmailDto.class);
+    }
+
+    public EmailDto updateEmail(UUID userId, EmailDto dto) {
+        return emailTarget(userId)
+                .path(dto.getEmailId().toString())
+                .request()
+                .put(Entity.json(dto), EmailDto.class);
+    }
+
+    public void deleteEmail(UUID userId, UUID emailId) {
+        emailTarget(userId)
+                .path(emailId.toString())
+                .request()
+                .delete(Void.class);
+    }
+
+    public List<EmailDto> findEmailsByUserId(UUID userId){
+        return emailTarget(userId)
+                .request()
+                .get(new GenericType<List<EmailDto>>(){});
+    }
+
+    public EmailDto updatePrimaryEmailByEmailId(UUID userId, UUID emailId){
+        return emailTarget(userId)
+                .path(emailId.toString())
+                .path("primary")
+                .request()
+                .get(new GenericType<EmailDto>(){});
+    }
+    private WebTarget emailTarget(UUID userId) {
+        return ClientBuilder.newClient()
+                .target(baseUri)
+                .path("api")
+                .path("v1")
+                .path("users")
+                .path(userId.toString())
+                .path("emails");
+
+    }
 }

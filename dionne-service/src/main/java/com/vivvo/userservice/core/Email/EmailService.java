@@ -1,8 +1,6 @@
 package com.vivvo.userservice.core.Email;
 
 import com.vivvo.userservice.EmailDto;
-import com.vivvo.userservice.UserDto;
-import com.vivvo.userservice.core.User.*;
 import com.vivvo.userservice.core.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,27 +22,22 @@ public class EmailService {
     @Autowired
     private EmailValidator emailValidator;
 
-    public List<EmailDto> findAllEmails() {
-        return emailRepository.findAll()
+    public List<EmailDto> findAllEmails(UUID userId) {
+        return emailRepository.findAllByUserId(userId)
                 .stream()
                 .map(emailAssembler::assemble)
                 .collect(Collectors.toList());
     }
-    public List<EmailDto> findEmailsByUserId(UUID userId){
-        return emailRepository.getAllByUserId(userId)
-                .stream()
-                .map(emailAssembler::assemble)
-                .collect(Collectors.toList());
-    }
-    //TODO Workflow, have at least one of the emails be primary at all times unless no email
-    public EmailDto create(EmailDto dto) {
-        Map<String, String> validationErrors = emailValidator.validate(dto);
-        UUID emailId = dto.getEmailId() == null ? UUID.randomUUID() : dto.getEmailId();
-        dto.setEmailId(emailId);
+    //TODO Workflow, have at least one of the emails be primary at all times unless no emailAddress
+    public EmailDto create(UUID userId, EmailDto dto) {
+        Map<String, String> validationErrors = emailValidator.validate(userId, dto);
 
         if(!validationErrors.isEmpty()) {
             throw new ValidationException(validationErrors);
         }
+
+        UUID emailId = dto.getEmailId() == null ? UUID.randomUUID() : dto.getEmailId();
+        dto.setEmailId(emailId);
 
         return Optional.of(dto)
                 .map(emailAssembler::disassemble)
@@ -53,39 +46,15 @@ public class EmailService {
                 .get();
     }
 
-
-    public EmailDto changeEmailPrimaryByEmailId(UUID userId, UUID emailId){
-       // List<EmailDto> allEmailsByUserId = findEmailsByUserId(userId);
-        List<Email>  allEmailsByUserId = emailRepository.getAllByUserId(userId);
-        if(allEmailsByUserId.size() == 0){
-            throw new EmailNotFoundException(emailId);
-        }
-        if(allEmailsByUserId.stream().filter(e->e.getEmailId() == emailId).count() != 1) {
-            throw new EmailNotFoundException(emailId);
-        }
-        Email toReturn = new Email();
-        for(Email email : allEmailsByUserId){
-            if(email.getEmailId() == emailId){
-                email.setIsPrimary(true);
-                toReturn = email;
-            }
-            else{
-                email.setIsPrimary(false);
-            }
-            emailRepository.save(email);
-        }
-        return emailAssembler.assemble(toReturn);
-    }
-
-
-
-    public EmailDto makeEmailPrimaryByEmailId(UUID emailId){
+    public EmailDto makeEmailPrimaryByEmailId(UUID userId,UUID emailId){
         Email toChangeEmailPrimary = Optional.of(emailRepository.getEmailByEmailId(emailId))
                 .orElseThrow(() -> new EmailNotFoundException(emailId));
 
-        List<Email> allEmailFromUser = emailRepository.getAllByUserId(toChangeEmailPrimary.getUserId());
+        List<Email> allEmailFromUser = emailRepository.findAllByUserId(userId);
 
-        allEmailFromUser.stream().forEach(e -> e.setIsPrimary(e.getEmailId() == emailId));
+        allEmailFromUser
+                .stream()
+                .forEach(e -> e.setIsPrimary(e.getEmailId() == emailId));
         emailRepository.saveAll(allEmailFromUser);
         return emailAssembler.assemble(toChangeEmailPrimary);
     }

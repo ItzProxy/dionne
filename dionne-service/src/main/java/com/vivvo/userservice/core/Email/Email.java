@@ -17,12 +17,11 @@ public class Email {
     @Column(name = "email_id")
     @Type(type = "uuid-char")
     private UUID emailId;
-
     @Column(name = "user_id")
     @Type(type = "uuid-char")
     private UUID userId;
     @Column(name = "email_address")
-    private String email;
+    private String emailAddress;
     @Column(name = "is_primary_email")
     private Boolean isPrimary;
 

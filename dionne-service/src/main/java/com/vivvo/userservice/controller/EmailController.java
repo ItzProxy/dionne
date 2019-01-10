@@ -12,37 +12,28 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/users/email")
+@RequestMapping("/api/v1/users/{userId}/emails")
 public class EmailController {
+
     @Autowired
     private EmailService emailService;
 
     @GetMapping
-    public List<EmailDto> findAllEmails() {
-        return emailService.findAllEmails();
+    public List<EmailDto> findAllEmails(@PathVariable UUID userId) {
+        return emailService.findAllEmails(userId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EmailDto addEmailToUserId(@RequestBody EmailDto dto){
-        return emailService.create(dto);
+    public EmailDto addEmail(@PathVariable UUID userId, @RequestBody EmailDto dto){
+        return emailService.create(userId, dto);
     }
 
-    @GetMapping("{userId}")
-    public List<EmailDto> findEmailByUserId(@PathVariable UUID userId){
-        return emailService.findEmailsByUserId(userId);
-    }
 
-    //TODO: Build the setPrimary method
-    @PutMapping("/{userId}/{emailId}/primary")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public EmailDto changeEmailPrimaryByEmailId(@PathVariable UUID userId, @PathVariable UUID emailId){
-        return emailService.changeEmailPrimaryByEmailId(userId, emailId);
-    }
 
-    @PutMapping("/primary/{emailId}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public EmailDto changeEmailPrimary(@PathVariable UUID emailId){
-        return emailService.makeEmailPrimaryByEmailId(emailId);
+    //TODO finish this shit
+    @PostMapping("/primary")
+    public EmailDto changeEmailPrimary(@PathVariable UUID userId, @RequestParam UUID emailId){
+        return emailService.makeEmailPrimaryByEmailId(userId, emailId);
     }
 }
