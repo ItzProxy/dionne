@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 public class EmailAssembler {
 
     public EmailDto assemble(Email email) {
-        //log.warn(emailAddress.getEmailId().toString() + emailAddress.getUserId().toString() + emailAddress.getEmailAddress());
         return new EmailDto()
                 .setEmailId(email.getEmailId())
                 .setUserId(email.getUserId())

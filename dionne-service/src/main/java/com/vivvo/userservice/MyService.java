@@ -14,6 +14,8 @@ public class MyService {
         SpringApplication.run(MyService.class, args);
     }
 
+
+
     @Autowired
     private MessageSource messageSource;
 

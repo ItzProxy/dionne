@@ -58,6 +58,13 @@ public class UserClient {
 
     }
 
+    public EmailDto findEmailByEmailId(UUID userId, UUID emailId){
+        return emailTarget(userId)
+                .path(emailId.toString())
+                .request()
+                .get(new GenericType<EmailDto>(){});
+    }
+
     public EmailDto createEmail(UUID userId,EmailDto dto) {
         return emailTarget(userId)
                 .request()
@@ -89,8 +96,9 @@ public class UserClient {
                 .path(emailId.toString())
                 .path("primary")
                 .request()
-                .get(new GenericType<EmailDto>(){});
+                .post(Entity.json(new EmailDto()), EmailDto.class);
     }
+
     private WebTarget emailTarget(UUID userId) {
         return ClientBuilder.newClient()
                 .target(baseUri)
@@ -99,6 +107,6 @@ public class UserClient {
                 .path("users")
                 .path(userId.toString())
                 .path("emails");
-
     }
+
 }

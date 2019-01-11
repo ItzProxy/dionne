@@ -12,11 +12,10 @@
       <column name="username" type="varchar(255)"/>
 		</createTable>
 	</changeSet>
-  
   <changeSet author="dpasion" id="add-test-data">
     <sql>
-      insert into user values ('f7aeeda0-c32f-4f1c-9983-bf424f46721c', 'dionne', 'pasion', 'dpasion');
-      insert into user values ('f7aeeda0-c32f-4f1c-9983-bf424f46721d', 'dionne', 'pasion', 'dpasion1');
+      insert into user values ('74e2ecb4-ace5-4b43-8d7d-05e8befe85e2', 'dionne', 'pasion', 'dpasion');
+      insert into user values ('74e2ecb4-ace5-4b43-8d7d-05e8befe85e3', 'dionne', 'pasion', 'dpasion1');
     </sql>
   </changeSet>
 </databaseChangeLog>

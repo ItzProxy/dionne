@@ -1,6 +1,7 @@
 package com.vivvo.userservice.controller;
 
 import com.vivvo.userservice.core.Email.EmailNotFoundException;
+import com.vivvo.userservice.core.Email.EmailUserIdNoMatchException;
 import com.vivvo.userservice.core.User.UserNotFoundException;
 import com.vivvo.userservice.core.ValidationException;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,12 @@ public class ApplicationControllerAdvice {
     public ResponseEntity<Object> handleEmailNotFoundException(EmailNotFoundException exception, WebRequest request) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Collections.singletonMap("message", exception.getMessage()));
+    }
+
+    @ExceptionHandler(value = EmailUserIdNoMatchException.class)
+    public ResponseEntity<Object> handleEmailUserIdNoMatchException(EmailUserIdNoMatchException exception, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(Collections.singletonMap("message", exception.getMessage()));
     }
 
 
