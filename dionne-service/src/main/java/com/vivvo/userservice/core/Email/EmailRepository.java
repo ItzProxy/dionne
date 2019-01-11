@@ -14,5 +14,5 @@ public interface EmailRepository extends JpaRepository<Email, UUID> {
     Email getEmailByEmailId(UUID emailId);
     Boolean existsByEmailAddress(String emailAddress);
     Email findEmailByUserIdAndEmailId(UUID userId, UUID emailId);
-    Optional<Email> findEmailByUserIdAndIsPrimaryIsTrue(UUID userId);
+    Email findEmailByUserIdAndIsPrimaryIsTrue(UUID userId);
 }

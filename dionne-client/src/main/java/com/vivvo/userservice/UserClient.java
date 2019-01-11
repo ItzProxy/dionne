@@ -99,6 +99,13 @@ public class UserClient {
                 .post(Entity.json(new EmailDto()), EmailDto.class);
     }
 
+    public String sendEmailToPrimary(UUID userId){
+        return emailTarget(userId)
+                .path("sendEmail")
+                .request()
+                .post(Entity.json(""), String.class);
+    }
+
     private WebTarget emailTarget(UUID userId) {
         return ClientBuilder.newClient()
                 .target(baseUri)

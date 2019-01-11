@@ -1,21 +1,29 @@
 package com.vivvo.userservice.core.Email;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.vivvo.userservice.EmailDto;
+import com.vivvo.userservice.core.Email.Exceptions.EmailNotFoundException;
+import com.vivvo.userservice.core.Email.Exceptions.EmailUserIdNoMatchException;
+import com.vivvo.userservice.core.Email.Exceptions.UserHasNoPrimaryEmail;
 import com.vivvo.userservice.core.MailgunConfigurations;
 import com.vivvo.userservice.core.ValidationException;
-import jdk.nashorn.internal.runtime.options.Option;
+import lombok.extern.slf4j.Slf4j;
+import net.sargue.mailgun.Configuration;
+import net.sargue.mailgun.Mail;
+import net.sargue.mailgun.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Form;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Service
 @Transactional
 public class EmailService {
@@ -26,7 +34,6 @@ public class EmailService {
     @Autowired
     private EmailValidator emailValidator;
 
-    @Autowired
     private RestTemplate restTemplate;
 
     @Autowired
@@ -91,22 +98,27 @@ public class EmailService {
         return emailAssembler.assemble(toChangeEmailPrimary);
     }
 
-    public Boolean sendEmail(UUID userId){
+    public Response sendEmail(UUID userId, String subject, String content){
         //check if user has a primary set if not send false
-        Email primaryEmailToSendTo = Optional.of(emailRepository
-            .findEmailByUserIdAndIsPrimaryIsTrue(userId).orElseThrow(() -> new UserHasNoPrimaryEmail(userId));
+        Email primaryEmailToSendTo = Optional.of(emailRepository.findEmailByUserIdAndIsPrimaryIsTrue(userId))
+            .orElseThrow(()->new UserHasNoPrimaryEmail(userId));
 
         //if so then set up mailgun client and throw em an email
-        restTemplate.
-        HttpResponse<JsonNode> request = Unirest.post("https://api.mailgun.net/v3/" + YOUR_DOMAIN_NAME + "/messages")
-            .basicAuth("api", mailgunConfigurations.get)
-            .field("from", "Excited User <USER@YOURDOMAIN.COM>")
-            .field("to", "artemis@example.com")
-            .field("subject", "hello")
-            .field("text", "testing")
-            .asJson();
-
-        return request.getBody();
+        // Set headers for the request
+        Configuration configuration = new Configuration()
+            .domain("sandboxbd2749017ccc486bb974b8117ca206e7.mailgun.org")//mailgunConfigurations.getDomainname())
+            .apiKey("552be8de429e7c1293002c55002c029f-060550c6-6cd81e14")//mailgunConfigurations.getKey())
+            .from("Test account", "mailguntest@sandboxbd2749017ccc486bb974b8117ca206e7.mailgun.org"); //+ mailgunConfigurations.getDomainname());
+        log.warn("key: " + configuration.apiKey() +
+            "\ndomain: "+configuration.domain() +
+            "\nfrom: " +configuration.from());
+        Response a = Mail.using(configuration)
+            .to("dionne.pasion@gmail.com")//primaryEmailToSendTo.getEmailAddress())
+            .subject(subject)
+            .text(content)
+            .build()
+            .send();
+        log.warn(new Integer(a.responseCode()).toString());
+        return a;
     }
-
 }

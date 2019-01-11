@@ -12,8 +12,9 @@ import java.net.URI;
 @Setter
 @Getter
 public class MailgunConfigurations {
-    private String baseUrl;
-    private String messagesUrl;
+    private String baseurl;
+    private String messagesurl;
     private String username;
     private String key;
+    private String domainname;
 }

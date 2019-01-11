@@ -4,8 +4,10 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.vivvo.userservice.EmailDto;
 import com.vivvo.userservice.core.Email.EmailService;
 import lombok.extern.slf4j.Slf4j;
+import net.sargue.mailgun.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.Path;
@@ -51,8 +53,8 @@ public class EmailController {
 
     //TODO mailgun
     @PostMapping("/sendEmail")
-    public Boolean sendEmail(@PathVariable UUID userId){
-        return emailService.make
+    public Response sendEmail(@PathVariable UUID userId){
+        return emailService.sendEmail(userId,"Yep","it doesn't work ok.");
     }
 
 

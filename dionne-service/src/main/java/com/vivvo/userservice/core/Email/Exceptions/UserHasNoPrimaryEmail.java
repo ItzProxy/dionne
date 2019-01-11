@@ -1,4 +1,4 @@
-package com.vivvo.userservice.core.Email;
+package com.vivvo.userservice.core.Email.Exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

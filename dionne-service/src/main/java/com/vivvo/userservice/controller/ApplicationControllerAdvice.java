@@ -1,7 +1,7 @@
 package com.vivvo.userservice.controller;
 
-import com.vivvo.userservice.core.Email.EmailNotFoundException;
-import com.vivvo.userservice.core.Email.EmailUserIdNoMatchException;
+import com.vivvo.userservice.core.Email.Exceptions.EmailNotFoundException;
+import com.vivvo.userservice.core.Email.Exceptions.EmailUserIdNoMatchException;
 import com.vivvo.userservice.core.User.UserNotFoundException;
 import com.vivvo.userservice.core.ValidationException;
 import lombok.extern.slf4j.Slf4j;

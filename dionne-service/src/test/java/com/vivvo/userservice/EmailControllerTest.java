@@ -2,8 +2,8 @@ package com.vivvo.userservice;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vivvo.userservice.core.Email.EmailNotFoundException;
-import com.vivvo.userservice.core.Email.EmailUserIdNoMatchException;
+import com.vivvo.userservice.core.Email.Exceptions.EmailNotFoundException;
+import com.vivvo.userservice.core.Email.Exceptions.EmailUserIdNoMatchException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,8 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
@@ -199,6 +198,25 @@ public class EmailControllerTest {
 
         userClient.deleteEmail(UUID.randomUUID(),emailDto.getEmailId());
     }
+
+    @Test
+    public void testSendEmailToPrimary_shouldSucceed(){
+        UserDto userDto = validUser();
+        UserDto returnedUserDto = userClient.create(userDto);
+
+
+        EmailDto emailDto = validEmail(returnedUserDto.getUserId());
+        List<EmailDto> emails = new LinkedList<>();
+        emails.add(userClient.createEmail(returnedUserDto.getUserId(), emailDto));
+        emails.add(userClient.createEmail(returnedUserDto.getUserId(), emailDto));
+
+        userClient.updatePrimaryEmailByEmailId(returnedUserDto.getUserId(),
+            emails.get(0).getEmailId());
+
+        assertNotNull(userClient.sendEmailToPrimary(returnedUserDto.getUserId()));
+    }
+
+
 
     private EmailDto validEmail(UUID userId) {
         return new EmailDto()
