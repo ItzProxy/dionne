@@ -35,3 +35,5 @@ application-personal.properties
 *~
 .DS_Store
 *.swp
+
+application.properties
