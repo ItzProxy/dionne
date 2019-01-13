@@ -21,7 +21,7 @@ export class UserService {
       });
       return Subscription.EMPTY;
     }
-
+  
   findAllUsers(): Observable<UserModel[]> {
     return this.http
         .get<UserModel[]>("./api/users/");
@@ -32,13 +32,8 @@ export class UserService {
       .get<UserModel>("./api/users/" + userId);
   }
 
-  saveCurrentUser(userModel : UserModel): Observable<UserModel>{
+  saveCurrentUser(userModel : UseœrModel): Observable<UserModel>{
     return this.http
         .put<UserModel>("./api/users/" + userModel.userId, userModel);
-  }
-
-  addNewUser(user : UserModel) : Observable<UserModel>{
-      return this.http
-          .post<UserModel>("./api/users/", user);
   }
 }

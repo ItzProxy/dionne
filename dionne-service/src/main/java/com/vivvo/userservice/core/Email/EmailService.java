@@ -106,19 +106,17 @@ public class EmailService {
         //if so then set up mailgun client and throw em an email
         // Set headers for the request
         Configuration configuration = new Configuration()
-            .domain("sandboxbd2749017ccc486bb974b8117ca206e7.mailgun.org")//mailgunConfigurations.getDomainname())
-            .apiKey("552be8de429e7c1293002c55002c029f-060550c6-6cd81e14")//mailgunConfigurations.getKey())
-            .from("Test account", "mailguntest@sandboxbd2749017ccc486bb974b8117ca206e7.mailgun.org"); //+ mailgunConfigurations.getDomainname());
+            .domain(mailgunConfigurations.getDomainname())
+            .apiKey(mailgunConfigurations.getKey())
+            .from("Test account", "mailguntest@"+ mailgunConfigurations.getDomainname());
         log.warn("key: " + configuration.apiKey() +
             "\ndomain: "+configuration.domain() +
             "\nfrom: " +configuration.from());
-        Response a = Mail.using(configuration)
-            .to("dionne.pasion@gmail.com")//primaryEmailToSendTo.getEmailAddress())
+        return Mail.using(configuration)
+            .to(primaryEmailToSendTo.getEmailAddress())
             .subject(subject)
             .text(content)
             .build()
             .send();
-        log.warn(new Integer(a.responseCode()).toString());
-        return a;
     }
 }

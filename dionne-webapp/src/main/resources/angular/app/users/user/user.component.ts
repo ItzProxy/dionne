@@ -12,7 +12,8 @@ import {UserModel} from "../../models/user.model";
 export class UserComponent {
 
   formGroup: FormGroup = this.createFormGroup();
-  Saved : Boolean = false;
+  saved : Boolean = false;
+
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
@@ -28,15 +29,13 @@ export class UserComponent {
         this.formGroup.patchValue(user);
       }
     });
-  }
 
+    this.userService.sav
+  }
 
   saveForm(): void {
     const userToSave = this.formGroup.getRawValue() as UserModel;
-    this.userService.saveCurrentUser(userToSave).subscribe(user =>{
-        this.Saved = true;
-        console.log(user);
-    });
+    console.log(this.userService.saveCurrentUser(userToSave));
   }
 
   private createFormGroup(): FormGroup {

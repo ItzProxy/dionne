@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -200,7 +201,7 @@ public class EmailControllerTest {
     }
 
     @Test
-    public void testSendEmailToPrimary_shouldSucceed(){
+    public void testSendEmailToPrimary_shouldFail(){
         UserDto userDto = validUser();
         UserDto returnedUserDto = userClient.create(userDto);
 
@@ -213,7 +214,7 @@ public class EmailControllerTest {
         userClient.updatePrimaryEmailByEmailId(returnedUserDto.getUserId(),
             emails.get(0).getEmailId());
 
-        assertNotNull(userClient.sendEmailToPrimary(returnedUserDto.getUserId()));
+        assertEquals("false", userClient.sendEmailToPrimary(returnedUserDto.getUserId()));
     }
 
 
@@ -221,7 +222,7 @@ public class EmailControllerTest {
     private EmailDto validEmail(UUID userId) {
         return new EmailDto()
                 .setUserId(userId == null ? UUID.randomUUID() : userId)
-                .setEmailAddress("testemail@test.com")
+                .setEmailAddress("test@test.com")
                 .setIsPrimary(false);
     }
 

@@ -12,7 +12,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     List<User> findByLastNameLike(String lastName);
 
-    Boolean existsByUsername(String username);
+    Boolean existsByUsername(String username);  
 
     Optional<User> findByUserId(UUID userId);
 
