@@ -1,3 +1,18 @@
-<p>
-  user-emails works!
-</p>
+<table class="table table-bordered table-hover">
+  <thead>
+  <tr>
+    <th>Email Address</th>
+    <th>Primary</th>
+    <th>Verified</th>
+    <th>Options</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let email of emails$ | async">
+    <td>{{email.emailAddress}}</td>
+    <td>{{email.isPrimary}}</td>
+    <td>{{email.isVerified}}</td>
+    <td><button>Remove</button></td>
+  </tr>
+  </tbody>
+</table>

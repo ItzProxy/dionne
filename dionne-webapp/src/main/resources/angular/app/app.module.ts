@@ -10,6 +10,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {AddUserComponent } from './users/add-user/add-user.component';
 import {NgbModalModule} from "@ng-bootstrap/ng-bootstrap";
 import {UserEmailsComponent} from "./users/user-emails/user-emails.component";
+import { AddEmailToUserComponent } from './users/add-email-to-user/add-email-to-user.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {UserEmailsComponent} from "./users/user-emails/user-emails.component";
     UserListComponent,
     UserComponent,
     AddUserComponent,
-    UserEmailsComponent
+    UserEmailsComponent,
+    AddEmailToUserComponent
   ],
   imports: [
     BrowserModule,

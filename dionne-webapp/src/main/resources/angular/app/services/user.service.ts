@@ -3,6 +3,7 @@ import {UserModel} from "../models/user.model";
 import {BehaviorSubject, Observable, of, Subscription} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import { map, filter, catchError, mergeMap } from 'rxjs/operators';
+import {EmailModel} from "../models/email.model";
 @Injectable({
   providedIn: 'root'
 })
@@ -41,5 +42,19 @@ export class UserService {
     return this.http
         .post<UserModel>(
             "./api/users/", userModel);
+  }
+
+  getUsersEmail(userId : string) : Observable<EmailModel[]>{
+    return this.http
+        .get<EmailModel[]>(
+          "./api/users/" +userId + "/emails"
+        );
+  }
+
+  saveEmailToUser(userId : string, emailModel : EmailModel) : Observable<EmailModel>{
+    return this.http
+        .post<EmailModel>(
+            "./api/users/" + userId + "/emails", emailModel
+        );
   }
 }

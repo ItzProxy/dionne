@@ -13,15 +13,15 @@ export class UserComponent {
 
   formGroup: FormGroup = this.createFormGroup();
   saved : Boolean = false;
-
+  userId : string;
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
               private activatedRoute: ActivatedRoute) {
 
     this.activatedRoute.params.subscribe(params => {
-      const userId = params['userId'];
-      this.userService.loadCurrentUserByUserId(userId);
+      this.userId = params['userId'];
+      this.userService.loadCurrentUserByUserId(this.userId);
     });
 
     this.userService.currentUser$.subscribe(user => {
