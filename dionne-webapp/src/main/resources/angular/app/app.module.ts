@@ -11,6 +11,8 @@ import {AddUserComponent } from './users/add-user/add-user.component';
 import {NgbModalModule} from "@ng-bootstrap/ng-bootstrap";
 import {UserEmailsComponent} from "./users/user-emails/user-emails.component";
 import { AddEmailToUserComponent } from './users/add-email-to-user/add-email-to-user.component';
+import {EmailModel} from "./models/email.model";
+import {UserModel} from "./models/user.model";
 
 @NgModule({
   declarations: [

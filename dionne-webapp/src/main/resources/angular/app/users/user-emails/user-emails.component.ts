@@ -7,19 +7,23 @@ import {EmailModel} from "../../models/email.model";
   templateUrl: './user-emails.component.html',
   styleUrls: ['./user-emails.component.scss']
 })
-export class UserEmailsComponent implements OnInit, OnChanges{
-  @Input() passedUserId: string;
-  emails$ : EmailModel[];
-  constructor(private userService : UserService,) {
-    console.log(this.passedUserId);
-    this.userService.getUsersEmail(this.passedUserId).subscribe(emails =>{
-      this.emails$ = emails;
-    });
+export class UserEmailsComponent implements OnInit{
+  private emails$ = this.userService.currentEmailList$;
+
+  private _userId : string;
+  @Input()
+  set userId(userId: string) {
+    this._userId = (userId && userId.trim()) || '<No User Id>';
+  }
+  get userId(){
+    return this._userId;
+  }
+  constructor(private userService : UserService) {
+
   }
 
   ngOnInit() {
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    
+    console.log(this._userId);
+    this.userService.loadCurrentUsersEmail(this._userId);
   }
 }

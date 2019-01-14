@@ -39,8 +39,7 @@ export class AddUserComponent implements OnInit {
 
   saveForm(): void {
     const userToSave = this.formGroup.getRawValue() as UserModel;
-    console.log(this.formGroup.getRawValue());
-    console.log(this.userService.createNewUser(userToSave).subscribe());
+    this.userService.saveUser(userToSave);
   }
 
   private createFormGroup(): FormGroup {

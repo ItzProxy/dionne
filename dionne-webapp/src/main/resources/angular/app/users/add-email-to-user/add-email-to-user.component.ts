@@ -53,6 +53,8 @@ export class AddEmailToUserComponent implements OnInit {
       "emailId": '',
       "userId": '',
       "emailAddress": '',
+      "isPrimary": false,
+      "isVerified": false,
     });
   }
 }

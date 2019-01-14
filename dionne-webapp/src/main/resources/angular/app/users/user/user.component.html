@@ -11,7 +11,8 @@
         <label for="username">Username</label>
         <input formControlName="username" type="text" class="form-control" id="username">
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button [disabled]="!savingSubscription.closed" type="submit" class="btn btn-primary">Submit</button>
 </form>
-<app-user-emails [passedUserId]="userId"></app-user-emails>
+<hr>
+<app-user-emails [userId]="userId"></app-user-emails>
 <app-add-email-to-user [passedUserId]="userId"></app-add-email-to-user>

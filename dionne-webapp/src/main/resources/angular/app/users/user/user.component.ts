@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {UserService} from "../../services/user.service";
 import {ActivatedRoute} from "@angular/router";
 import {UserModel} from "../../models/user.model";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-user',
@@ -12,8 +13,8 @@ import {UserModel} from "../../models/user.model";
 export class UserComponent {
 
   formGroup: FormGroup = this.createFormGroup();
-  saved : Boolean = false;
   userId : string;
+  savingSubscription = Subscription.EMPTY;
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
@@ -33,10 +34,8 @@ export class UserComponent {
 
   saveForm(): void {
     const userToSave = this.formGroup.getRawValue() as UserModel;
-    this.userService.saveCurrentUser(userToSave).subscribe(user=>{
-      console.log(user);
-      this.saved = true;
-    });
+    this.savingSubscription = this.userService.saveUser(userToSave,
+        user => console.log('We saved the user!'));
   }
 
   private createFormGroup(): FormGroup {
