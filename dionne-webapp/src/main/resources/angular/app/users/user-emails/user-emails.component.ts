@@ -26,4 +26,8 @@ export class UserEmailsComponent implements OnInit{
     console.log(this._userId);
     this.userService.loadCurrentUsersEmail(this._userId);
   }
+
+  removeEmailFromUser(email : EmailModel) : void {
+    this.userService.removeEmail(email);
+  }
 }
