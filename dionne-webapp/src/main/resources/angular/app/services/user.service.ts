@@ -32,8 +32,14 @@ export class UserService {
       .get<UserModel>("./api/users/" + userId);
   }
 
-  saveCurrentUser(userModel : UseœrModel): Observable<UserModel>{
+  saveCurrentUser(userModel : UserModel): Observable<UserModel>{
     return this.http
         .put<UserModel>("./api/users/" + userModel.userId, userModel);
+  }
+
+  createNewUser(userModel : UserModel) : Observable<UserModel>{
+    return this.http
+        .post<UserModel>(
+            "./api/users/", userModel);
   }
 }

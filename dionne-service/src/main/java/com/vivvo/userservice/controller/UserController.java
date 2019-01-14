@@ -1,9 +1,7 @@
 package com.vivvo.userservice.controller;
 
 
-import com.vivvo.userservice.EmailDto;
 import com.vivvo.userservice.UserDto;
-import com.vivvo.userservice.core.Email.EmailService;
 import com.vivvo.userservice.core.User.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

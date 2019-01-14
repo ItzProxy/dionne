@@ -1,7 +1,5 @@
 package com.vivvo.userservice.core.Email;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 public class EmailAddressValidator {
     private static EmailAddressValidator instance = null;
 

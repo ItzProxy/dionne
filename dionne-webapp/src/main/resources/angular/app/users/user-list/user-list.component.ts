@@ -19,9 +19,4 @@ export class UserListComponent {
   navigateToUserDetails(user: UserModel) {
     this.router.navigateByUrl(user.userId);
   }
-
-  addNewUser(){
-      this.router.navigateByUrl();
-  }
-
 }

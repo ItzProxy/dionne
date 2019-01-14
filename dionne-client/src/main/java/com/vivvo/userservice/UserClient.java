@@ -7,6 +7,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
+import net.sargue.mailgun.Response;
 import java.util.List;
 import java.util.UUID;
 
@@ -99,11 +100,11 @@ public class UserClient {
                 .post(Entity.json(new EmailDto()), EmailDto.class);
     }
 
-    public String sendEmailToPrimary(UUID userId){
+    public Response sendEmailToPrimary(UUID userId){
         return emailTarget(userId)
                 .path("sendEmail")
                 .request()
-                .post(Entity.json(""), String.class);
+                .post(Entity.json(""), Response.class);
     }
 
     private WebTarget emailTarget(UUID userId) {

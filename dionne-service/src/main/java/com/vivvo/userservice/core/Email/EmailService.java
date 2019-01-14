@@ -12,12 +12,8 @@ import net.sargue.mailgun.Mail;
 import net.sargue.mailgun.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,8 +30,6 @@ public class EmailService {
     @Autowired
     private EmailValidator emailValidator;
 
-    private RestTemplate restTemplate;
-
     @Autowired
     private MailgunConfigurations mailgunConfigurations;
 
@@ -50,7 +44,6 @@ public class EmailService {
                 .map(emailAssembler::assemble)
                 .collect(Collectors.toList());
     }
-    //TODO Workflow, have at least one of the emails be primary at all times unless no emailAddress
     public EmailDto create(UUID userId, EmailDto dto) {
         Map<String, String> validationErrors = emailValidator.validate(userId, dto);
 

@@ -31,6 +31,11 @@ public class UserController {
         return userClient.update(userId, userDto);
     }
 
+    @PostMapping
+    public UserDto createUser(@RequestBody UserDto userDto){
+        return userClient.create(userDto);
+    }
+
 
 
 }

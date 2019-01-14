@@ -29,13 +29,14 @@ export class UserComponent {
         this.formGroup.patchValue(user);
       }
     });
-
-    this.userService.sav
   }
 
   saveForm(): void {
     const userToSave = this.formGroup.getRawValue() as UserModel;
-    console.log(this.userService.saveCurrentUser(userToSave));
+    this.userService.saveCurrentUser(userToSave).subscribe(user=>{
+      console.log(user);
+      this.saved = true;
+    });
   }
 
   private createFormGroup(): FormGroup {

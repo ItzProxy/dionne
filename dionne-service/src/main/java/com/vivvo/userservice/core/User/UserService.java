@@ -1,15 +1,15 @@
 package com.vivvo.userservice.core.User;
 
-import com.vivvo.userservice.EmailDto;
 import com.vivvo.userservice.UserDto;
-import com.vivvo.userservice.core.Email.EmailAssembler;
-import com.vivvo.userservice.core.Email.EmailRepository;
 import com.vivvo.userservice.core.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service

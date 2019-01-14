@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {UserListComponent} from "./users/user-list/user-list.component";
 import {UserComponent} from "./users/user/user.component";
+import {AddUserComponent} from "./users/add-user/add-user.component";
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
     path: ':userId',
     component: UserComponent,
   },
+  {
+    path: '',
+    component: AddUserComponent
+  }
 ];
 
 @NgModule({

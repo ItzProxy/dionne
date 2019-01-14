@@ -1,16 +1,6 @@
 package com.vivvo.userservice.templates;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Base64;
-
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.client.InterceptingClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 /*

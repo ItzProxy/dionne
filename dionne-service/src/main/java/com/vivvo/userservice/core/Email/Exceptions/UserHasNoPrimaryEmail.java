@@ -1,7 +1,6 @@
 package com.vivvo.userservice.core.Email.Exceptions;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.UUID;

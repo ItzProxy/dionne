@@ -5,8 +5,6 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.net.URI;
-
 @Component
 @ConfigurationProperties(prefix = "mailgun.api")
 @Setter
