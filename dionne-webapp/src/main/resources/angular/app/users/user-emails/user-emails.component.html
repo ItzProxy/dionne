@@ -12,7 +12,7 @@
     <td>{{email.emailAddress}}</td>
     <td>{{email.isPrimary}}</td>
     <td>{{email.isVerified}}</td>
-    <td><button>Remove</button></td>
+    <td><app-remove-email [emailId]="email.emailId"></app-remove-email></td>
   </tr>
   </tbody>
 </table>

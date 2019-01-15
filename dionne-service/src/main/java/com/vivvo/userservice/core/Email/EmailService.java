@@ -56,15 +56,19 @@ public class EmailService {
 
         Boolean isPrimary = dto.getIsPrimary() == null ? false : dto.getIsPrimary();
         dto.setIsPrimary(isPrimary);
+        dto.setIsVerified(false); //no man should be verified
 
-        Boolean isVerified = dto.getIsVerified() == null ? false : dto.getIsVerified();
-        dto.setIsPrimary(isVerified);
-
-        return Optional.of(dto)
+        EmailDto toReturn = Optional.of(dto)
                 .map(emailAssembler::disassemble)
                 .map(emailRepository::save)
                 .map(emailAssembler::assemble)
                 .get();
+
+        if(isPrimary){
+            makeEmailPrimaryByEmailId(userId,emailId);
+        }
+
+        return toReturn;
     }
 
     public void delete(UUID userId, UUID emailId){

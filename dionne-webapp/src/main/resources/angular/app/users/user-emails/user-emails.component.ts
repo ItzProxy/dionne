@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {EmailModel} from "../../models/email.model";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-user-emails',
@@ -19,11 +20,9 @@ export class UserEmailsComponent implements OnInit{
     return this._userId;
   }
   constructor(private userService : UserService) {
-
   }
 
   ngOnInit() {
-    console.log(this._userId);
     this.userService.loadCurrentUsersEmail(this._userId);
   }
 }

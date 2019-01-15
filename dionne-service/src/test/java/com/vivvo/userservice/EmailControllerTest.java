@@ -60,7 +60,7 @@ public class EmailControllerTest {
 
         EmailDto[] emails = testRestTemplate.getForObject("/api/v1/users/"+returnedUser.getUserId().toString()+"/emails", EmailDto[].class);
         assertEquals(1, emails.length);
-        assertEquals("testemail@test.com", emails[0].getEmailAddress());
+        assertEquals("test@test.com", emails[0].getEmailAddress());
     }
 
     @Test
@@ -75,7 +75,7 @@ public class EmailControllerTest {
         List<EmailDto> emails = userClient.findEmailsByUserId(returnedUserDto.getUserId());
 
         assertEquals(1, emails.size());
-        assertEquals("testemail@test.com", emails.get(0).getEmailAddress());
+        assertEquals("test@test.com", emails.get(0).getEmailAddress());
     }
 
     @Test(expected = BadRequestException.class)
@@ -112,7 +112,7 @@ public class EmailControllerTest {
 
         List<EmailDto> emails = userClient.findEmailsByUserId(emailDto.getUserId());
         assertEquals(1, emails.size());
-        assertEquals("testemail@test.com", emails.get(0).getEmailAddress());
+        assertEquals("test@test.com", emails.get(0).getEmailAddress());
     }
     @Test
     public void testCreateAndSetPrimaryForOneTrue_shouldSucceed(){
@@ -168,9 +168,10 @@ public class EmailControllerTest {
         EmailDto emailDto = validEmail(returnedUserDto.getUserId());
 
         assertNotNull(emailDto);
+        userClient.createEmail(returnedUserDto.getUserId(),emailDto);
         List<EmailDto> emails = userClient.findEmailsByUserId(returnedUserDto.getUserId());
         assertEquals(1,emails.size());
-        assertEquals("testemail@test.com", emails.get(0).getEmailAddress());
+        assertEquals("test@test.com", emails.get(0).getEmailAddress());
 
         userClient.deleteEmail(returnedUserDto.getUserId(),emailDto.getEmailId());
         List<EmailDto> shouldBeNoEmails = userClient.findEmailsByUserId(returnedUserDto.getUserId());
@@ -194,7 +195,7 @@ public class EmailControllerTest {
         EmailDto emailDto = validEmail(returnedUserDto.getUserId());
 
         assertNotNull(emailDto);
-
+        userClient.createEmail(returnedUserDto.getUserId(), emailDto);
         assertEquals(1,userClient.findEmailsByUserId(returnedUserDto.getUserId()).size());
 
         userClient.deleteEmail(UUID.randomUUID(),emailDto.getEmailId());

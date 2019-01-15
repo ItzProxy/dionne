@@ -6,10 +6,14 @@
     </button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="formGroup" (submit)="saveForm(); modal.close('Save Click');">
+    <form [formGroup]="formGroup" (submit)="saveForm();">
       <div class="form-group">
         <label for="emailAddress">Email Address</label>
-        <input formControlName="emailAddress" type="text" class="form-control" id="emailAddress">
+        <input formControlName="emailAddress" type="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.emailAddress.errors }" id="emailAddress">
+        <div *ngIf="submitted && f.emailAddress.errors" class="invalid-feedback">
+          <div *ngIf="f.emailAddress.errors.required">Email is required</div>
+          <div *ngIf="f.emailAddress.errors.email">Email must be a valid email address</div>
+      </div>
       </div>
       <div class="form-group">
         <label for="isPrimary">Make this the primary email</label>

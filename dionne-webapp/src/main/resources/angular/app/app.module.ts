@@ -13,6 +13,9 @@ import {UserEmailsComponent} from "./users/user-emails/user-emails.component";
 import { AddEmailToUserComponent } from './users/add-email-to-user/add-email-to-user.component';
 import {EmailModel} from "./models/email.model";
 import {UserModel} from "./models/user.model";
+import { RemoveEmailComponent } from './users/remove-email/remove-email.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import {UserModel} from "./models/user.model";
     UserComponent,
     AddUserComponent,
     UserEmailsComponent,
-    AddEmailToUserComponent
+    AddEmailToUserComponent,
+    RemoveEmailComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

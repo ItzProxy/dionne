@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/user.service";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {UserModel} from "../../models/user.model";
 import {EmailModel} from "../../models/email.model";
+import { validateConfig } from '@angular/router/src/config';
 
 @Component({
   selector: 'app-add-email-to-user',
@@ -20,41 +21,35 @@ export class AddEmailToUserComponent implements OnInit {
 
   ngOnInit() {
   }
-  private closeResult: string;
+  submitted : Boolean = false;
   formGroup: FormGroup = this.createFormGroup();
 
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
   }
 
   saveForm(): void {
+    this.submitted = true;
+    if(this.formGroup.invalid){
+      return;
+    }
     const emailToSave = this.formGroup.getRawValue() as EmailModel;
     emailToSave.userId = this.passedUserId;
     console.log(emailToSave);
-    console.log(this.userService.saveEmailToUser(this.passedUserId, emailToSave).subscribe());
+    console.log(this.userService.saveEmailToUser(this.passedUserId, emailToSave).subscribe(()=>{
+    }));
+    this.modalService.dismissAll();
   }
+
+  get f() { return this.formGroup.controls; }
 
   private createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      "emailId": '',
-      "userId": '',
-      "emailAddress": '',
-      "isPrimary": false,
-      "isVerified": false,
+      emailId : '',
+      userId : '',
+      emailAddress : ['',[Validators.email,Validators.required]],
+      isPrimary : false,
+      isVerified : false,
     });
   }
 }
