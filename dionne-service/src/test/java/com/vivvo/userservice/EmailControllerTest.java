@@ -156,7 +156,6 @@ public class EmailControllerTest {
     public void testMakePrimaryWithInvalidEmailId_shouldErrorNotFoundException(){
         UserDto userDto = validUser();
         UserDto returnedUserDto = userClient.create(userDto);
-        UUID randomEmailId = UUID.randomUUID();
         userClient.updatePrimaryEmailByEmailId(returnedUserDto.getUserId(),
             randomEmailId);
     }

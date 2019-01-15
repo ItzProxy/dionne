@@ -93,4 +93,11 @@ export class UserService {
             "./api/users/" + userId + "/emails", emailModel
         );
   }
+
+  removeEmail(email : EmailModel) : Subscription {
+    return this.http
+        .delete(
+        "./api/users/" + email.userId + "/emails/" + email.emailId
+    ).subscribe(()=>console.log("finished deleting"));
+  }
 }

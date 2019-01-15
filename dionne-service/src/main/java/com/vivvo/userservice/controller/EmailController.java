@@ -35,8 +35,7 @@ public class EmailController {
         return emailService.create(userId, dto);
     }
 
-    @DeleteMapping("{emailId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{emailId}")
     public void deleteEmail(@PathVariable UUID userId, @PathVariable UUID emailId){
         emailService.delete(userId, emailId);
     }

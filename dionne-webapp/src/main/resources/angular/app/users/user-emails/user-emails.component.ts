@@ -25,4 +25,8 @@ export class UserEmailsComponent implements OnInit{
   ngOnInit() {
     this.userService.loadCurrentUsersEmail(this._userId);
   }
+
+  removeEmailFromUser(email : EmailModel) : void {
+    this.userService.removeEmail(email);
+  }
 }
