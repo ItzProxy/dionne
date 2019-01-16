@@ -16,6 +16,9 @@ import {UserModel} from "./models/user.model";
 import { RemoveEmailComponent } from './users/remove-email/remove-email.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { MakeEmailPrimaryComponent } from './users/make-email-primary/make-email-primary.component';
+import { EmailOptionsComponent } from './users/email-options/email-options.component';
+import { VerifyEmailComponent } from './users/verify-email/verify-email.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { FooterComponent } from './footer/footer.component';
     AddEmailToUserComponent,
     RemoveEmailComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    MakeEmailPrimaryComponent,
+    EmailOptionsComponent,
+    VerifyEmailComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +44,8 @@ import { FooterComponent } from './footer/footer.component';
     NgbModalModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ EmailOptionsComponent ]
 })
 export class AppModule {
 }

@@ -29,7 +29,8 @@
             "styles": [
   "node_modules/bootstrap/dist/css/bootstrap.min.css",
 
-              "src/main/resources/angular/styles.scss"
+              "src/main/resources/angular/styles.scss",
+              "node_modules/@fortawesome/fontawesome-free/css/all.css"
             ],
             "scripts": []
           },

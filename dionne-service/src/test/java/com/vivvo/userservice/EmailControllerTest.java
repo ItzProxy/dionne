@@ -2,6 +2,7 @@ package com.vivvo.userservice;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vivvo.userservice.core.Email.Email;
 import com.vivvo.userservice.core.Email.Exceptions.EmailNotFoundException;
 import com.vivvo.userservice.core.Email.Exceptions.EmailUserIdNoMatchException;
 import org.junit.Before;
@@ -156,8 +157,7 @@ public class EmailControllerTest {
     public void testMakePrimaryWithInvalidEmailId_shouldErrorNotFoundException(){
         UserDto userDto = validUser();
         UserDto returnedUserDto = userClient.create(userDto);
-        userClient.updatePrimaryEmailByEmailId(returnedUserDto.getUserId(),
-            randomEmailId);
+        userClient.updatePrimaryEmailByEmailId(returnedUserDto.getUserId(),UUID.randomUUID());
     }
 
     @Test

@@ -35,7 +35,8 @@ public class EmailService {
 
     public EmailDto findOneEmailByEmailId(UUID userId, UUID emailId){
         return Optional.of(emailRepository.findEmailByUserIdAndEmailId(userId, emailId))
-            .map(emailAssembler::assemble).get();
+            .map(emailAssembler::assemble)
+            .orElseThrow(()->new EmailNotFoundException(emailId));
     }
 
     public List<EmailDto> findAllEmails(UUID userId) {
@@ -75,7 +76,7 @@ public class EmailService {
         Email toDelete = Optional.of(emailRepository.getEmailByEmailId(emailId))
             .orElseThrow(() -> new EmailNotFoundException(emailId));
 
-        if(toDelete.getUserId() != userId){
+        if(!toDelete.getUserId().equals(userId)){
             throw new EmailUserIdNoMatchException(userId, emailId);
         }
 

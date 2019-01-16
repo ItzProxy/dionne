@@ -10,6 +10,6 @@ public class EmailUserIdNoMatchException extends RuntimeException {
 
     public EmailUserIdNoMatchException(UUID userId, UUID emailId) {
         super("Provided email: emailId - " + emailId.toString()
-        + " does match the provided userId: " + userId.toString());
+        + " does match the provided an emailId associated with the userId: " + userId.toString());
     }
 }

@@ -2,6 +2,11 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {UserService} from "../../services/user.service";
 import {EmailModel} from "../../models/email.model";
 import {Observable} from "rxjs";
+import {EmailService} from "../../services/email.service";
+import {RemoveEmailComponent} from "../remove-email/remove-email.component";
+import { NgModel } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {EmailOptionsComponent} from "../email-options/email-options.component";
 
 @Component({
   selector: 'app-user-emails',
@@ -9,8 +14,8 @@ import {Observable} from "rxjs";
   styleUrls: ['./user-emails.component.scss']
 })
 export class UserEmailsComponent implements OnInit{
-  private emails$ = this.userService.currentEmailList$;
-
+  private emails$ = this.emailService.currentEmailList$;
+  private emailSelected : EmailModel;
   private _userId : string;
   @Input()
   set userId(userId: string) {
@@ -19,14 +24,17 @@ export class UserEmailsComponent implements OnInit{
   get userId(){
     return this._userId;
   }
-  constructor(private userService : UserService) {
+  constructor(private emailService : EmailService,
+    public modalService: NgbModal) {
   }
-
   ngOnInit() {
-    this.userService.loadCurrentUsersEmail(this._userId);
+    this.emailService.loadCurrentUsersEmail(this._userId);
   }
-
-  removeEmailFromUser(email : EmailModel) : void {
-    this.userService.removeEmail(email);
+  openModal(emailToOpen : EmailModel){
+    const modalRef = this.modalService.open(EmailOptionsComponent);
+    modalRef.componentInstance.email = emailToOpen;
+    modalRef.result.then(()=>{
+      this.emailService.loadCurrentUsersEmail(this._userId);
+    });
   }
 }

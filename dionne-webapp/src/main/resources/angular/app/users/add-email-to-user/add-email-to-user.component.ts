@@ -1,10 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {UserService} from "../../services/user.service";
+import {FormBuilder, FormGroup, Validators, FormControl} from "@angular/forms";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {UserModel} from "../../models/user.model";
 import {EmailModel} from "../../models/email.model";
-import { validateConfig } from '@angular/router/src/config';
+import {EmailService} from "../../services/email.service";
 
 @Component({
   selector: 'app-add-email-to-user',
@@ -16,7 +14,7 @@ export class AddEmailToUserComponent implements OnInit {
   @Input() passedUserId : string;
 
   constructor(private formBuilder: FormBuilder,
-              private userService: UserService,
+              private emailService: EmailService,
               private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -33,11 +31,11 @@ export class AddEmailToUserComponent implements OnInit {
     if(this.formGroup.invalid){
       return;
     }
+    console.log(this.formGroup.get('isPrimary'));
     const emailToSave = this.formGroup.getRawValue() as EmailModel;
     emailToSave.userId = this.passedUserId;
     console.log(emailToSave);
-    console.log(this.userService.saveEmailToUser(this.passedUserId, emailToSave).subscribe(()=>{
-    }));
+    this.emailService.saveEmailToUser(this.passedUserId, emailToSave);
     this.modalService.dismissAll();
   }
 
@@ -48,8 +46,8 @@ export class AddEmailToUserComponent implements OnInit {
       emailId : '',
       userId : '',
       emailAddress : ['',[Validators.email,Validators.required]],
-      isPrimary : false,
-      isVerified : false,
+      isPrimary : new FormControl(false),
+      isVerified : new FormControl(false),
     });
   }
 }
