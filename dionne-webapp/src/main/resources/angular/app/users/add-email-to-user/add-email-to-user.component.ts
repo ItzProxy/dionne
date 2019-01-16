@@ -9,18 +9,16 @@ import {EmailService} from "../../services/email.service";
   templateUrl: './add-email-to-user.component.html',
   styleUrls: ['./add-email-to-user.component.scss']
 })
-export class AddEmailToUserComponent implements OnInit {
+export class AddEmailToUserComponent{
 
   @Input() passedUserId : string;
 
+  submitted : Boolean = false;
+  formGroup: FormGroup = this.createFormGroup();
+  
   constructor(private formBuilder: FormBuilder,
               private emailService: EmailService,
               private modalService: NgbModal) { }
-
-  ngOnInit() {
-  }
-  submitted : Boolean = false;
-  formGroup: FormGroup = this.createFormGroup();
 
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
@@ -31,7 +29,6 @@ export class AddEmailToUserComponent implements OnInit {
     if(this.formGroup.invalid){
       return;
     }
-    console.log(this.formGroup.get('isPrimary'));
     const emailToSave = this.formGroup.getRawValue() as EmailModel;
     emailToSave.userId = this.passedUserId;
     console.log(emailToSave);
@@ -46,8 +43,8 @@ export class AddEmailToUserComponent implements OnInit {
       emailId : '',
       userId : '',
       emailAddress : ['',[Validators.email,Validators.required]],
-      isPrimary : new FormControl(false),
-      isVerified : new FormControl(false),
+      isPrimary : false,
+      isVerified : false,
     });
   }
 }
