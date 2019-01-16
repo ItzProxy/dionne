@@ -6,12 +6,10 @@
 
     <changeSet author="dpasion" id="create-phone-table">
         <createTable tableName="phone">
-            <column autoIncrement="true" name="phone_id" type="varchar(11)" startWith="1" incrementBy="1">
+            <column autoIncrement="true" name="phone_id" type="varchar(36)">
                 <constraints primaryKey="true"/>
             </column>
             <column name="user_id" type="varchar(36)">
-                <constraints foreignKeyName="fk_user_id" references="user(user_id)"
-                             nullable="false"/>
             </column>
             <column name="phone" type="varchar(10)"/>
             <column name="is_primary_phone" type="boolean"/>

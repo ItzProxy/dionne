@@ -1,0 +1,24 @@
+<div class="justify-content-center align-items-center container">
+    <div class="row">
+        <div class="col-md-6">
+            <form [formGroup]="formGroup" (submit)="saveForm()">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input formControlName="firstName" type="text" class="form-control" id="firstName">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input formControlName="lastName" type="text" class="form-control" id="lastName">
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input formControlName="username" type="text" class="form-control" id="username">
+                </div>
+                <button [disabled]="!savingSubscription.closed" type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<hr>
+<app-user-emails [userId]="userId"></app-user-emails>
+<app-add-email-to-user [passedUserId]="userId"></app-add-email-to-user>

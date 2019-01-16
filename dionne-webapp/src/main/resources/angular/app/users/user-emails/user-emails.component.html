@@ -1,0 +1,19 @@
+<table class="table table-bordered table-hover">
+  <thead>
+  <tr>
+    <th>Email Address</th>
+    <th>Primary</th>
+    <th>Verified</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let email of emails$ | async" (click)="openModal(email)">
+    <td>{{email.emailAddress}}</td>
+    <td><i *ngIf="email.isPrimary; else elseBlock" class="fa fa-check" aria-hidden="true"></i>
+      <ng-template #elseBlock><i class="fa fa-times-circle" aria-hidden="true"></i></ng-template></td>
+      <td><i *ngIf="email.isVerified; else elseBlock" class="fa fa-check" aria-hidden="true"></i>
+        <ng-template #elseBlock><i class="fa fa-times-circle" aria-hidden="true"></i></ng-template></td>
+  </tr>
+  </tbody>
+</table>
+

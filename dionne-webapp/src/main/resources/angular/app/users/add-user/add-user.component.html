@@ -1,0 +1,33 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add User</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formGroup" (submit)="saveForm(); modal.close('Save Click');">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input formControlName="firstName" type="text" class="form-control" id="firstName">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input formControlName="lastName" type="text" class="form-control" id="lastName">
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input formControlName="username" type="text" class="form-control" id="username">
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-dark">Submit</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Add New User</button>
+
+<hr>
+
+<pre>{{closeResult}}</pre>

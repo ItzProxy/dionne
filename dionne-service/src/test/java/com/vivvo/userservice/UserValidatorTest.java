@@ -90,6 +90,30 @@ public class UserValidatorTest {
         assertNotNull(validationErrors.get("username"));
     }
 
+    @Test
+    public void testValidateUpdateWithSameUserId_shouldSucceed(){
+        UserDto dto = newValidUserForUpdate();
+
+        UserRepository mockUserRepository = mock(UserRepository.class);
+        when(mockUserRepository.existsByUsername(anyString())).thenReturn(true);
+        userValidator = new UserValidator(mockUserRepository);
+
+        Map<String, String> validationErrors = userValidator.validateUpdate(dto.getUserId(),dto);
+        assertEquals(0, validationErrors.size());
+    }
+
+    @Test
+    public void testValidateUpdateWithDifferentUserId_shouldSucceed(){
+        UserDto dto = newValidUserForUpdate();
+        UserRepository mockUserRepository = mock(UserRepository.class);
+        when(mockUserRepository.existsByUsername(anyString())).thenReturn(true);
+        userValidator = new UserValidator(mockUserRepository);
+
+        Map<String, String> validationErrors = userValidator.validateUpdate(UUID.randomUUID(),dto);
+        assertEquals(1, validationErrors.size());
+        assertNotNull(validationErrors.get("userId"));
+    }
+
 
     private UserDto newValidUserForCreate() {
         return new UserDto()

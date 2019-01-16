@@ -15,14 +15,18 @@ import java.util.UUID;
 @Accessors(chain = true)
 public class Phone {
 
-    @Id @GeneratedValue
+    @Id
     @Column(name = "phone_id")
     @Type(type = "uuid-char")
-    private int phoneId;
-    @Column(name = "first_name")
-    private String firstName;
-    @Column(name = "last_name")
-    private String lastName;
-    @Column(name = "username")
-    private String username;
+    private UUID phoneId;
+    @Column(name = "user_id")
+    @Type(type = "uuid-char")
+    private UUID userId;
+    @Column(name = "phone_numnber")
+    private String phoneNumber;
+    @Column(name = "is_primary_phone")
+    private Boolean isPrimary;
+    @Column(name = "is_verified_phone")
+    private Boolean isVerified;
+
 }

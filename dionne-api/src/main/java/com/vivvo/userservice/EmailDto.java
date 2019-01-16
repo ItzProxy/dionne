@@ -10,6 +10,7 @@ import java.util.UUID;
 public class EmailDto {
     private UUID userId;
     private UUID emailId;
-    private String email;
+    private String emailAddress;
     private Boolean isPrimary;
+    private Boolean isVerified;
 }

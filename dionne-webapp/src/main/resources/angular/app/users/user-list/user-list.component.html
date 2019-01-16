@@ -1,0 +1,14 @@
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>All Users</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users$ | async" (click)="navigateToUserDetails(user)">
+        <td>{{user.username}}</td>
+    </tr>
+    </tbody>
+</table>
+<app-add-user></app-add-user>
+

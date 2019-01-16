@@ -1,9 +1,7 @@
 package com.vivvo.userservice.controller;
 
 
-import com.vivvo.userservice.EmailDto;
 import com.vivvo.userservice.UserDto;
-import com.vivvo.userservice.core.Email.EmailService;
 import com.vivvo.userservice.core.User.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +29,11 @@ public class UserController {
         return userService.findUserByLastName(lastName);
     }
 
+    @GetMapping("/{userId}")
+    public UserDto findUserById(@PathVariable UUID userId){
+      return userService.findOneByUserId(userId);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto create(@RequestBody UserDto dto) {
@@ -39,8 +42,7 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public UserDto update(@PathVariable UUID userId, @RequestBody UserDto dto) {
-        dto.setUserId(userId);
-        return userService.update(dto);
+        return userService.update(userId,dto);
     }
 
     @DeleteMapping("/{userId}")

@@ -5,27 +5,26 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Slf4j
 @Component
 public class EmailAssembler {
 
     public EmailDto assemble(Email email) {
-        //log.warn(email.getEmailId().toString() + email.getUserId().toString() + email.getEmail());
         return new EmailDto()
                 .setEmailId(email.getEmailId())
                 .setUserId(email.getUserId())
-                .setEmail(StringUtils.strip(email.getEmail()))
-                .setIsPrimary(email.getIsPrimary());
+                .setEmailAddress(StringUtils.strip(email.getEmailAddress()))
+                .setIsPrimary(email.getIsPrimary())
+                .setIsVerified(email.getIsVerified());
     }
 
     public Email disassemble(EmailDto dto) {
         return new Email()
                 .setEmailId(dto.getEmailId())
                 .setUserId(dto.getUserId())
-                .setEmail(dto.getEmail())
-                .setIsPrimary(dto.getIsPrimary());
+                .setEmailAddress(dto.getEmailAddress())
+                .setIsPrimary(dto.getIsPrimary())
+                .setIsVerified(dto.getIsVerified());
     }
 
 }

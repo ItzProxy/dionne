@@ -1,0 +1,14 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Email Options: {{email.emailAddress}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-footer">
+    <app-verify-email [email] = email></app-verify-email>
+    <app-make-email-primary [email] = email></app-make-email-primary>
+    <app-remove-email [email] = email></app-remove-email>
+</div>
+
+
+
