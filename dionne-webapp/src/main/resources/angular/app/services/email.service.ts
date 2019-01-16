@@ -64,5 +64,17 @@ export class EmailService {
         });
   }
 
+  sendVerifyEmail(userId : string, emailId : string, successCallBack? : any) : Subscription{
+      return this.http
+          .post(
+              `./api/users/${userId}/emails/${emailId}/verify`, null
+          ).pipe(
+              delay(1000)
+          )
+          .subscribe(()=>{
+              console.log("email sent to verify: " + emailId);
+          });
+  }
+
   
 }

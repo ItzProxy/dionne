@@ -49,7 +49,20 @@ public class EmailController {
 
     //TODO mailgun for the email services in mybff
     @PostMapping("/sendEmail")
-    public Response sendEmail(@PathVariable UUID userId){
+    public Boolean sendEmail(@PathVariable UUID userId){
         return emailClient.sendEmailToPrimary(userId);
+    }
+
+
+    @GetMapping("/{emailId}/verify/{verifyId}")
+    public Boolean verifyEmail(@PathVariable UUID userId, @PathVariable UUID emailId, @PathVariable UUID verifyId){
+        return emailClient.verifyEmail(userId,emailId,verifyId);
+    }
+
+
+    //TODO verification
+    @PostMapping("/{emailId}/verify")
+    public Boolean sendVerificationEmail(@PathVariable UUID userId, @PathVariable UUID emailId){
+        return emailClient.sendVerifyEmail(userId,emailId);
     }
 }

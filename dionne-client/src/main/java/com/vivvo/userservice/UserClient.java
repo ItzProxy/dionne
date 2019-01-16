@@ -107,6 +107,23 @@ public class UserClient {
                 .post(Entity.json(null), Boolean.class);
     }
 
+    public Boolean verifyEmail(UUID userId, UUID emailId, UUID verifyId){
+        return emailTarget(userId)
+                .path(emailId.toString())
+                .path("verify")
+                .path(verifyId.toString())
+                .request()
+                .post(Entity.json(null), Boolean.class);
+    }
+
+    public Boolean sendVerifyEmail(UUID userId, UUID emailId){
+        return emailTarget(userId)
+                .path(emailId.toString())
+                .path("verify")
+                .request()
+                .post(Entity.json(null), Boolean.class);
+    }
+
     private WebTarget emailTarget(UUID userId) {
         return ClientBuilder.newClient()
                 .target(baseUri)

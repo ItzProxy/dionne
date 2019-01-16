@@ -2,12 +2,13 @@ package com.vivvo.userservice.controller;
 
 import com.vivvo.userservice.EmailDto;
 import com.vivvo.userservice.core.Email.EmailService;
+import com.vivvo.userservice.core.NgrokConfiguration;
 import lombok.extern.slf4j.Slf4j;
-import net.sargue.mailgun.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Path;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +19,9 @@ public class EmailController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private NgrokConfiguration ngrokConfiguration;
 
     @GetMapping
     public List<EmailDto> findAllEmails(@PathVariable UUID userId) {
@@ -42,7 +46,7 @@ public class EmailController {
 
 
     //TODO finish this shit
-    @PostMapping("{emailId}/primary")
+    @PostMapping("/{emailId}/primary")
     public EmailDto changeEmailPrimary(@PathVariable UUID userId, @PathVariable UUID emailId){
         return emailService.makeEmailPrimaryByEmailId(userId, emailId);
     }
@@ -50,9 +54,19 @@ public class EmailController {
     //TODO mailgun
     @PostMapping("/sendEmail")
     public Boolean sendEmail(@PathVariable UUID userId){
-        return emailService.sendEmail(userId,"Yep","it doesn't work ok.").isOk();
+        return emailService.sendEmailToPrimary(userId,"Yep","it doesn't work ok.").isOk();
     }
 
+    //TODO verification email sent
+    @PostMapping("/{emailId}/verify/{verifyId}")
+    public Boolean verifyEmail(@PathVariable UUID userId, @PathVariable UUID emailId, @PathVariable UUID verifyId){
+        return emailService.emailVerificationCheck(userId,emailId,verifyId);
+    }
 
-    //TODO finish
+    //TODO sendVerification email
+    @PostMapping("/{emailId}/verify")
+    public Boolean sendVerificationEmail(@PathVariable UUID userId, @PathVariable UUID emailId){
+        return emailService.sendVerificationEmail(userId,emailId,UUID.randomUUID(), ngrokConfiguration.getUrl());
+    }
+
 }

@@ -51,7 +51,6 @@ export class UserService {
           )
           .subscribe(savedUser => {
             if(successCallback) {
-              console.log("ok");
               successCallback(savedUser);
             }
           });

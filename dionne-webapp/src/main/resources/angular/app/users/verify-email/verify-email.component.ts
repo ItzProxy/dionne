@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {EmailService} from "../../services/email.service";
 import {EmailModel} from "../../models/email.model";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-verify-email',
@@ -12,10 +13,12 @@ export class VerifyEmailComponent {
   @Input('email')
   email : EmailModel;
 
-  constructor(emailService : EmailService) { }
+  constructor(private emailService : EmailService,
+    private activeModal : NgbActiveModal) { }
   //TODO
   verifyEmail() {
-    console.log("Not implemented yet");
+    this.emailService.sendVerifyEmail(this.email.userId,this.email.emailId);
+    this.activeModal.close("Email Verification done");
   }
 
 }

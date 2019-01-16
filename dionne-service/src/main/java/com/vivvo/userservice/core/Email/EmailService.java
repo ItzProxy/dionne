@@ -1,5 +1,6 @@
 package com.vivvo.userservice.core.Email;
 
+import com.sun.jndi.toolkit.url.Uri;
 import com.vivvo.userservice.EmailDto;
 import com.vivvo.userservice.core.Email.Exceptions.EmailNotFoundException;
 import com.vivvo.userservice.core.Email.Exceptions.EmailUserIdNoMatchException;
@@ -14,10 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import javax.ws.rs.core.UriBuilder;
+import java.net.URI;
+import java.util.*;
 import java.util.stream.Collectors;
 @Slf4j
 @Service
@@ -32,6 +32,8 @@ public class EmailService {
 
     @Autowired
     private MailgunConfigurations mailgunConfigurations;
+
+    Map<UUID,UUID> unverifiedEmails = new HashMap<>();
 
     public EmailDto findOneEmailByEmailId(UUID userId, UUID emailId){
         Email toReturn = Optional.of(emailRepository.findEmailByUserIdAndEmailId(userId, emailId))
@@ -97,25 +99,75 @@ public class EmailService {
         return emailAssembler.assemble(toChangeEmailPrimary);
     }
 
-    public Response sendEmail(UUID userId, String subject, String content){
+    public Response sendEmailToPrimary(UUID userId, String subject, String content){
         //check if user has a primary set if not send false
         Email primaryEmailToSendTo = Optional.of(emailRepository.findEmailByUserIdAndIsPrimaryIsTrue(userId))
             .orElseThrow(()->new UserHasNoPrimaryEmail(userId));
 
-        //if so then set up mailgun client and throw em an email
-        // Set headers for the request
-        Configuration configuration = new Configuration()
-            .domain(mailgunConfigurations.getDomainname())
-            .apiKey(mailgunConfigurations.getKey())
-            .from("Test account", "mailguntest@"+ mailgunConfigurations.getDomainname());
-        log.warn("key: " + configuration.apiKey() +
-            "\ndomain: "+configuration.domain() +
-            "\nfrom: " +configuration.from());
+        return sendEmailToEmailAddress(primaryEmailToSendTo.getEmailAddress(),subject,content);
+    }
+
+    public Boolean emailVerificationCheck(UUID userId,UUID emailId, UUID verificationId){
+        if(unverifiedEmails.containsKey(emailId)){
+           if(unverifiedEmails.get(emailId).equals(verificationId)){
+               //we can now update the database with this shit
+               setEmailIsVerifiedToTrue(userId,emailId);
+               unverifiedEmails.remove(emailId);
+               return true;
+           }
+        }
+        return false;
+    }
+
+    public Boolean sendVerificationEmail(UUID userId, UUID emailId, UUID verificationId, URI exposeEndPoint){
+
+        String emailAddressToVerify = emailRepository.findEmailByUserIdAndEmailId(userId,emailId).getEmailAddress();
+
+        String subject = "Verify Email";
+        StringBuilder content = new StringBuilder("Please verify your email - " + emailAddressToVerify);
+
+        UriBuilder verificationEmailLink = UriBuilder
+            .fromUri(exposeEndPoint)
+            .path(userId.toString())
+            .path("emails")
+            .path(emailId.toString())
+            .path("verify")
+            .path(verificationId.toString());
+
+        content.append("\n Click the link to verify " + verificationEmailLink.toString());
+
+        addNewEmailToBeVerified(emailId,verificationId);
+
+        return sendEmailToEmailAddress(emailAddressToVerify,subject,content.toString()).isOk();
+    }
+
+    private void setEmailIsVerifiedToTrue(UUID userId,UUID emailId){
+        Email email = Optional.of(emailRepository.findEmailByUserIdAndEmailId(userId,emailId))
+            .orElseThrow(() -> new EmailNotFoundException(emailId));
+
+        email.setIsVerified(true);
+        emailRepository.save(email);
+    }
+
+    private Response sendEmailToEmailAddress(String emailAddressToSendTo, String subject, String content){
+        Configuration configuration = setupConfiguration();
         return Mail.using(configuration)
-            .to(primaryEmailToSendTo.getEmailAddress())
+            .to(emailAddressToSendTo)
             .subject(subject)
             .text(content)
             .build()
             .send();
     }
+
+    private Configuration setupConfiguration() {
+        return new Configuration()
+            .domain(mailgunConfigurations.getDomainname())
+            .apiKey(mailgunConfigurations.getKey())
+            .from("Test account", "mailguntest@" + mailgunConfigurations.getDomainname());
+    }
+
+    private void addNewEmailToBeVerified(UUID emailId, UUID verificationId){
+        unverifiedEmails.put(emailId,verificationId);
+    }
+
 }
