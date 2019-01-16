@@ -49,8 +49,8 @@ public class EmailController {
 
     //TODO mailgun
     @PostMapping("/sendEmail")
-    public Response sendEmail(@PathVariable UUID userId){
-        return emailService.sendEmail(userId,"Yep","it doesn't work ok.");
+    public Boolean sendEmail(@PathVariable UUID userId){
+        return emailService.sendEmail(userId,"Yep","it doesn't work ok.").isOk();
     }
 
 

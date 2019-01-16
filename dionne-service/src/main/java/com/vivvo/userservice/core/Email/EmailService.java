@@ -34,9 +34,10 @@ public class EmailService {
     private MailgunConfigurations mailgunConfigurations;
 
     public EmailDto findOneEmailByEmailId(UUID userId, UUID emailId){
-        return Optional.of(emailRepository.findEmailByUserIdAndEmailId(userId, emailId))
-            .map(emailAssembler::assemble)
+        Email toReturn = Optional.of(emailRepository.findEmailByUserIdAndEmailId(userId, emailId))
             .orElseThrow(()->new EmailNotFoundException(emailId));
+
+        return emailAssembler.assemble(toReturn);
     }
 
     public List<EmailDto> findAllEmails(UUID userId) {
@@ -73,7 +74,7 @@ public class EmailService {
     }
 
     public void delete(UUID userId, UUID emailId){
-        Email toDelete = Optional.of(emailRepository.getEmailByEmailId(emailId))
+        Email toDelete = emailRepository.findById(emailId)
             .orElseThrow(() -> new EmailNotFoundException(emailId));
 
         if(!toDelete.getUserId().equals(userId)){
@@ -84,8 +85,8 @@ public class EmailService {
     }
 
     public EmailDto makeEmailPrimaryByEmailId(UUID userId,UUID emailId){
-        Email toChangeEmailPrimary = Optional.of(emailRepository.getEmailByEmailId(emailId))
-                .orElseThrow(() -> new EmailNotFoundException(emailId));
+        Email toChangeEmailPrimary = emailRepository.findById(emailId)
+            .orElseThrow(() -> new EmailNotFoundException(emailId));
 
         List<Email> allEmailFromUser = emailRepository.findAllByUserId(userId);
 

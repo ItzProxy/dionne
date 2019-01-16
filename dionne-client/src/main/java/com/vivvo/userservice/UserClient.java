@@ -100,11 +100,11 @@ public class UserClient {
                 .post(Entity.json(new EmailDto()), EmailDto.class);
     }
 
-    public Response sendEmailToPrimary(UUID userId){
+    public Boolean sendEmailToPrimary(UUID userId){
         return emailTarget(userId)
                 .path("sendEmail")
                 .request()
-                .post(Entity.json(""), Response.class);
+                .post(Entity.json(null), Boolean.class);
     }
 
     private WebTarget emailTarget(UUID userId) {

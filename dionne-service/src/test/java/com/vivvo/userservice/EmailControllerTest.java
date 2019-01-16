@@ -167,22 +167,21 @@ public class EmailControllerTest {
         EmailDto emailDto = validEmail(returnedUserDto.getUserId());
 
         assertNotNull(emailDto);
-        userClient.createEmail(returnedUserDto.getUserId(),emailDto);
+        EmailDto returnEmail = userClient.createEmail(returnedUserDto.getUserId(),emailDto);
         List<EmailDto> emails = userClient.findEmailsByUserId(returnedUserDto.getUserId());
         assertEquals(1,emails.size());
         assertEquals("test@test.com", emails.get(0).getEmailAddress());
 
-        userClient.deleteEmail(returnedUserDto.getUserId(),emailDto.getEmailId());
+        userClient.deleteEmail(returnedUserDto.getUserId(),returnEmail.getEmailId());
         List<EmailDto> shouldBeNoEmails = userClient.findEmailsByUserId(returnedUserDto.getUserId());
         assertEquals(0,shouldBeNoEmails.size());
     }
 
-    @Test(expected = EmailNotFoundException.class)
+    @Test(expected = NotFoundException.class)
     public void testDeleteWithInvalidEmailId_shouldErrorEmailNotFoundException(){
         UserDto userDto = validUser();
         UserDto returnedUserDto = userClient.create(userDto);
         EmailDto emailDto = validEmail(returnedUserDto.getUserId());
-
         assertNotNull(emailDto);
         userClient.deleteEmail(returnedUserDto.getUserId(),UUID.randomUUID());
     }
@@ -195,6 +194,7 @@ public class EmailControllerTest {
 
         assertNotNull(emailDto);
         userClient.createEmail(returnedUserDto.getUserId(), emailDto);
+
         assertEquals(1,userClient.findEmailsByUserId(returnedUserDto.getUserId()).size());
 
         userClient.deleteEmail(UUID.randomUUID(),emailDto.getEmailId());
@@ -214,7 +214,7 @@ public class EmailControllerTest {
         userClient.updatePrimaryEmailByEmailId(returnedUserDto.getUserId(),
             emails.get(0).getEmailId());
 
-        assertEquals("false", userClient.sendEmailToPrimary(returnedUserDto.getUserId()));
+        assertEquals(false, userClient.sendEmailToPrimary(returnedUserDto.getUserId()));
     }
 
 
